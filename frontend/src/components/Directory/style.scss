@@ -1,0 +1,56 @@
+.directory {
+    height: auto;
+    width: 100%;
+
+    background-color: #ffffff;
+
+    .title {
+        height: 32px;
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        .start {
+            height: auto;
+            width: auto;
+
+            margin-right: 16px;
+
+            .fold-button {
+                cursor: pointer;
+            }
+            .icon {
+                margin-left: 3px;
+                margin-right: 8px;
+            }
+        }
+        .end {
+            height: auto;
+            width: auto;
+
+            label {
+                cursor: pointer;
+            }
+        }
+    }
+    .content {
+        height: auto;
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+
+        hr {
+            margin: 0 7px 0 7px;
+        }
+        .children {
+            height: auto;
+            width: 100%;
+        }
+    }
+}
+
