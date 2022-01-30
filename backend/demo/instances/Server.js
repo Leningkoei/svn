@@ -22,14 +22,18 @@ export default class Server {
             console.log("[Warning] [Server] Server has been initialized!");
         };
     };
-    static getServer = () => {
+    static get = () => {
         if (Server.#INSTANCE === null) {
             throw new Error("[Error] [Server] Server must be initialize!");
         } else {
-            return Server.#INSTANCE.#server
+            return Server.#INSTANCE;
         };
     };
 
     #server = null;
+
+    getServer = () => {
+        return this.#server;
+    };
 };
 

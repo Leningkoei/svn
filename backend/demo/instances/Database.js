@@ -26,14 +26,18 @@ export default class Database {
             console.log("[Warning] [Database] Database has been initialized!");
         };
     };
-    static getDatabase = () => {
+    static get = () => {
         if (Database.#INSTANCE === null) {
             throw new Error("[Error] [Database] Database must be initialize!");
         } else {
-            return Database.#INSTANCE.#database;
+            return Database.#INSTANCE;
         };
     };
 
     #database = null;
+
+    getDatabase = () => {
+        return this.#database;
+    };
 };
 

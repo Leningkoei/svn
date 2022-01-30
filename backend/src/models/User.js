@@ -1,34 +1,18 @@
 export default User {
-    constructor(name) {
+    constructor(id, name, password, holder) {
+        this.#id = id;
         this.#name = name;
-        this.#holder = {
-            id: "jdfkaljfdak",
-            type: "directory",
-            path: [ "root" ],
-            fold: false,
-            children: []
-        };
+        this.#holder = holder;
     };
 
     #id = null;
-    #holder = null;
     #name = null;
+    #password = null;
+    #holder = null;
 
-    addInsertedIdAsId = insertedId => this.#id = insertedId;
-    get = () => {
-        const user = {
-            holder: this.#holder,
-            name: this.#name
-        };
-
-        this.#id && user.id = this.#id;
-
-        return user;
-    };
-    stringify = () => (
-        "id: " + this.#id + ", " +
-        "name: " + this.#name + ", " +
-        "holder: " + this.#holder
-    );
+    getId = () => this.#id;
+    getName = () => this.#name;
+    getPassword = () => this.#password;
+    getHolder = () => this.#holder;
 };
 
