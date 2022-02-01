@@ -22,14 +22,14 @@ export default class SignUp {
         this.#server[this.#method](
             this.#url,
             async (req, res) => {
-                const name = req.name;
+                const name = req.body.name;
 
                 if (await this.#userCollection.isNewName(name)) {
-                    const password = req.password;
+                    const password = req.body.password;
                     const rootDirectory =
                         new Directory("root", false, [ "root" ], []);
                     const user = new User(null, name, password, rootDirectory);
-                    const result = await this.#userCollection(user);
+                    const result = await this.#userCollection.createUser(user);
 
                     res.send({
                         result,

@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
 import Directory from "../Directory";
@@ -5,18 +6,24 @@ import "./style.scss";
 
 export default connect(
     state => ({
-        holder: state.holder
+        rootDirectory: state.rootDirectory
     }),
-    {}
+    {
+        refreshRootDirectory: data => ({ type: "refreshRootDirectory", data })
+    }
 )(class Holder extends React.Component {
     render() {
-        const holder = this.props.holder;
+        const rootDirectory = this.props.rootDirectory;
 
         return (
             <div className="holder">
-                <Directory key={holder.id} {...holder} />
+                <Directory key={rootDirectory.name} {...rootDirectory} />
             </div>
         );
+    };
+
+    componentDidMount() {
+        this.props.refreshRootDirectory({ name: "admin" });
     };
 });
 

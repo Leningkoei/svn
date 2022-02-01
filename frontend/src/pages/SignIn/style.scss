@@ -1,0 +1,45 @@
+.sign-in {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-image: url("../../assets/background.png");
+
+    .content {
+        height: auto;
+        width: 320px;
+
+        border: 1px;
+        padding: 16px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        background-color: rgba(219, 223, 238, 0.64);
+        border-color: rgba(219, 223, 238, 1);
+        border-radius: 4px;
+        border-style: solid;
+        box-shadow: 0 8px 16px 8px rgba(0, 0, 0, 0.32);
+
+        #home-with-blue-door {
+            height: 120px;
+            width: auto;
+
+            margin-top: 16px;
+            margin-bottom: 32px;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+        }
+    }
+}
+

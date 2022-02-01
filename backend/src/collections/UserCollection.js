@@ -1,4 +1,5 @@
 import Database from "../instances/Database.js";
+import User from "../models/User.js";
 
 export default class UserCollection {
     constructor() {
@@ -13,11 +14,10 @@ export default class UserCollection {
     createUser = async user => {
         const collection = this.#getCollection();
 
-        const name = user.name;
+        const name = user.getName();
 
         if (await this.isNewName(name)) {
-            const directory = user.directory;
-            const document = { name, directory };
+            const { id, ...document } = user.exportAttributes();
 
             await collection.insertOne(document);
 
@@ -47,46 +47,22 @@ export default class UserCollection {
         const result = await collection.findOne(query, options);
 
         if (result) {
-            const id = result._id;
-            const name = result.name;
-            const password = result.password;
-            const rootDirectory = result.rootDirectory;
-
-            return new User(id, name, password, rootDirectory);
+            return User.importAttributes(result);
         } else {
             return undefined;
         };
     };
-    readRootDirectoryById = async id => {
-        const collection = this.#getCollection();
-
-        const query = { _id: id };
-        const options = {};
-        const rootDirectory =
-            await collection.findOne(query, options).rootDirectory;
-
-        return rootDirectory;
-    };
 
     // U;
-    addFileForUser = async (user, file) => {
+    addObjectForUser = async (user, object) => {
         const collection = this.#getCollection();
-        const id = user.getId();
-        const rootDirectory = user.getDirectory();
-        const originalname = file.getOriginalname();
-        const filename = file.getFilename();
-        const path = file.getPath();
 
-        let currentDirectory = rootDirectory;
-        for (
-            const path = [ ...file.path].reverse();
-            path.length != 1;
-            currentDirectory = currentDirectory.children[path.pop()]
-        );
-        currentDirectory.children.push({ originalname, filename, path });
+        user.addObject(object);
+
+        const id = user.getId();
 
         const query = { _id: id };
-        const content = { $set: { rootDirectory } };
+        const content = { $set: user.exportAttributes() };
 
         await collection.updateOne(query, content);
     };

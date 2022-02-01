@@ -8,7 +8,8 @@ module.exports = {
     devtool: "inline-source-map",
     // mode: "production",
     devServer: {
-        static: "./dist"
+        port: "2048",
+        historyApiFallback: true
     },
     entry: "./src/index.js",
     resolve: {
@@ -48,17 +49,19 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                // use: [ "style-loader", "css-loader" ]
                 use: [ MiniCssExtractPlugin.loader, "css-loader" ]
             },
             {
                 test: /\.scss$/,
-                // use: [ "style-loader", "css-loader", "sass-loader" ]
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
                     "sass-loader"
                 ]
+            },
+            {
+                test: /\.(jpg|png)$/,
+                type: "asset/resource"
             }
         ]
     }

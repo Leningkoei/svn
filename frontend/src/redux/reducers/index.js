@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
-import holder from "./holder.js";
+import rootDirectory from "./rootDirectory.js";
 
 export default combineReducers({
-    holder
+    rootDirectory
 });
 
