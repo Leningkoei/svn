@@ -1,18 +1,18 @@
-export default User {
-    constructor(id, name, password, holder) {
+export default class User {
+    constructor(id, name, password, rootDirectory) {
         this.#id = id;
         this.#name = name;
-        this.#holder = holder;
+        this.#rootDirectory = rootDirectory;
     };
 
     #id = null;
     #name = null;
     #password = null;
-    #holder = null;
+    #rootDirectory = null;
 
     getId = () => this.#id;
     getName = () => this.#name;
     getPassword = () => this.#password;
-    getHolder = () => this.#holder;
+    getRootDirectory = () => this.#rootDirectory;
 };
 

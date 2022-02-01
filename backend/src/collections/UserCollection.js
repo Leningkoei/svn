@@ -3,55 +3,92 @@ import Database from "../instances/Database.js";
 export default class UserCollection {
     constructor() {
         this.#database = Database.getDatabase();
-        this.#collection = this.#database.collection("User");
     };
 
     #database = null;
-    #collection = null;
+
+    #getCollection = () => this.#database.collection("User");
 
     // C;
     createUser = async user => {
-        const name = user.name;
-        const directory = user.directory;
-        const document = { name, directory };
+        const collection = this.#getCollection();
 
-        this.#collection.insertOne(document);
+        const name = user.name;
+
+        if (await this.isNewName(name)) {
+            const directory = user.directory;
+            const document = { name, directory };
+
+            await collection.insertOne(document);
+
+            return true;
+        } else {
+            return false;
+        };
     };
 
     // R;
-    readHolderById = async id => {
+    isNewName = async name => {
+        const collection = this.#getCollection();
+
+        const user = await this.readUserByName(name);
+
+        if (user) {
+            return false;
+        } else {
+            return true;
+        };
+    };
+    readUserByName = async name => {
+        const collection = this.#getCollection();
+
+        const query = { name };
+        const options = {};
+        const result = await collection.findOne(query, options);
+
+        if (result) {
+            const id = result._id;
+            const name = result.name;
+            const password = result.password;
+            const rootDirectory = result.rootDirectory;
+
+            return new User(id, name, password, rootDirectory);
+        } else {
+            return undefined;
+        };
+    };
+    readRootDirectoryById = async id => {
+        const collection = this.#getCollection();
+
         const query = { _id: id };
         const options = {};
-        const holder = await this.#collection.findOne(query, options).holder;
+        const rootDirectory =
+            await collection.findOne(query, options).rootDirectory;
 
-        return holder;
+        return rootDirectory;
     };
 
     // U;
     addFileForUser = async (user, file) => {
-        const userId = user.id;
-        const holder = user.holder;
-        const id = file.getId();
+        const collection = this.#getCollection();
+        const id = user.getId();
+        const rootDirectory = user.getDirectory();
         const originalname = file.getOriginalname();
         const filename = file.getFilename();
         const path = file.getPath();
 
-        // const pathKai = [ ...file.path ].reverse();
-        let currentDirectory = holder;
-        // while(path.length != 1) {
-        //     currentDirectory = currentDirectory[pathKai.pop()];
-        // };
+        let currentDirectory = rootDirectory;
         for (
             const path = [ ...file.path].reverse();
             path.length != 1;
-            currentDirectory = currentDirectory.children[path.pop()];
+            currentDirectory = currentDirectory.children[path.pop()]
         );
-        currentDirectory.children.push({ id, originalname, filename, path });
+        currentDirectory.children.push({ originalname, filename, path });
 
-        const query = { _id: userId };
-        const content = { $set: { holder } };
+        const query = { _id: id };
+        const content = { $set: { rootDirectory } };
 
-        await this.#collection.updateOne(query, content);
+        await collection.updateOne(query, content);
     };
 
     // D;

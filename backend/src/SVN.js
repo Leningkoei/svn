@@ -1,5 +1,7 @@
 import Database from "./instances/Database.js";
 import Server from "./instances/Server.js";
+import FileReceiver from "./api/FileReceiver.js";
+import SignUp from "./api/SignUp.js";
 
 export default class SVN {
     constructor(port) {
@@ -24,6 +26,12 @@ export default class SVN {
         });
     };
     #setListeners = () => {
+        const fileReceiver = new FileReceiver("post", "/server/file-receiver",
+            "file", "./files");
+        const signUp = new SignUp("post", "/server/sign-up");
+
+        fileReceiver.setListener();
+        signUp.setListener();
     };
 
     main = async () => {
