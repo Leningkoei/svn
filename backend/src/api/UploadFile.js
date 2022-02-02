@@ -4,12 +4,11 @@ import UserCollection from "../collections/UserCollection.js";
 import File from "../models/File.js";
 import User from "../models/User.js";
 
-export default class FileReceiver {
-    constructor(method, url, fieldname, destination) {
+export default class UploadFile {
+    constructor(url, fieldname, destination) {
         this.#server = Server.getServer();
         this.#userCollection = new UserCollection();
 
-        this.#method = method;
         this.#url = url;
         this.#fieldname = fieldname;
         this.#destination = destination;
@@ -18,7 +17,6 @@ export default class FileReceiver {
     #server = null;
     #userCollection = null;
 
-    #method = null;
     #url = null;
     #fieldname = null;
     #destination = null;
@@ -28,22 +26,26 @@ export default class FileReceiver {
             dest: this.#destination
         });
 
-        this.#server[this.#method](
+        this.#server.post(
             this.#url,
             upload.single(this.#fieldname),
             async (req, res) => {
-                const username = req.data.username;
-                const user =
-                    await this.#userCollection.readUserByName(username);
+                const name = req.name;
+                const user = await this.#userCollection.readUserByName(name);
                 const originalname = req.file.originalname;
                 const filename = req.file.filename;
-                const path = req.data.path;
+                const path = req.path;
                 const file = new File(originalname, filename, path);
+                const userKai =
+                    await this.#userCollection.addObjectForUser(user, file);
 
-                await this.#userCollection.addFileForUser(user, file);
-
-                res.send(user.holder);
+                res.send(userKai.rootDirectory.exportAttributes());
             }
+        );
+
+        console.log(
+            "[Log] [Main] [Listener] " +
+            `Upload File listener has listening ${this.#url}.`
         );
     };
 };

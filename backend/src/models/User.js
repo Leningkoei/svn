@@ -31,14 +31,10 @@ export default class User {
     });
 
     addObject = object => {
-        let currentDirectory = this.#rootDirectory;
-        for (
-            const path = [ ...object.path ].reverse();
-            path.length != 1;
-            currentDirectory = currentDirectory.children[path.pop()]
-        );
+        const currentDirectory =
+            this.#rootDirectory.getCurrentDirectory(object.getPath());
 
-        currentDirectory.children.push(object);
+        currentDirectory.addChild(object);
     };
 };
 

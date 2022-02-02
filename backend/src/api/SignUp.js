@@ -4,22 +4,20 @@ import Directory from "../models/Directory.js";
 import User from "../models/User.js";
 
 export default class SignUp {
-    constructor(method, url) {
+    constructor(url) {
         this.#server = Server.getServer();
         this.#userCollection = new UserCollection();
 
-        this.#method = method;
         this.#url = url;
     };
 
     #server = null;
     #userCollection = null;
 
-    #method = null;
     #url = null;
 
     setListener = () => {
-        this.#server[this.#method](
+        this.#server.post(
             this.#url,
             async (req, res) => {
                 const name = req.body.name;
@@ -42,6 +40,11 @@ export default class SignUp {
                     });
                 };
             }
+        );
+
+        console.log(
+            "[Log] [Main] [Listener] " +
+            `Sign Up listener has listening ${this.#url}.`
         );
     };
 };

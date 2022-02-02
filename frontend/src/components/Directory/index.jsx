@@ -1,6 +1,7 @@
-import { nanoid } from "nanoid";
+import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
+import { Input, Modal } from "antd";
 import {
     DownOutlined,
     FileAddOutlined,
@@ -10,26 +11,22 @@ import {
     RightOutlined
 } from "@ant-design/icons";
 import File from "../File";
-import {
-    changeFold,
-    createDirectory,
-    uploadFile
-} from "../../redux/actions/directory.js";
 import "./style.scss";
 
 const Directory = connect(
     () => ({}),
     {
-        changeFold,
-        createDirectory,
-        uploadFile
+        refreshRootDirectory: data => ({ type: "refreshRootDirectory", data })
     }
 )(class extends React.Component {
      render() {
-        const path = this.props.path;
-        const name = path[path.length - 1];
         const children = this.props.children;
         const fold = this.props.fold;
+        const path = this.props.path;
+
+        const name = path[path.length - 1];
+
+        const isModalVisible = this.state.isModalVisible;
         const mouse = this.state.mouse;
 
         return (
@@ -55,10 +52,24 @@ const Directory = connect(
                     </div>
                     {mouse ? (
                         <div className="end">
-                            <FolderAddOutlined onClick={this.createDirectory} />
+                            <FolderAddOutlined
+                                style={{ fontSize: "30px" }}
+                                onClick={this.openModal}
+                            />
+                            <Modal
+                                visible={isModalVisible}
+                                onOk={this.createDirectory}
+                                onCancel={this.closeModal}
+                            >
+                                <Input
+                                    placeholder="Directory Name"
+                                    onChange={event => this.dirname =
+                                        event.target.value}
+                                />
+                            </Modal>
                             {/* #region AMAZING!!! */}
                             <label htmlFor="file-uploader">
-                                <FileAddOutlined />
+                                <FileAddOutlined style={{ fontSize: "24px" }} />
                             </label>
                             <input
                                 id="file-uploader"
@@ -91,19 +102,58 @@ const Directory = connect(
     };
 
     state = {
-        mouse: false
+        mouse: false,
+        isModalVisible: false
     };
 
-    changeFold = () => {
-        this.props.changeFold([ ...this.props.path ]);
+    dirname = "";
+
+    changeFold = async () => {
+        try {
+            const res = await axios.get(
+                "http://127.0.0.1:1024/server/change-fold",
+                { params: { name: "admin" } }
+            );
+
+            this.props.refreshRootDirectory(res.data);
+        } catch (err) {
+            alert(err);
+        };
     };
-    createDirectory = () => {
-        this.props.createDirectory([ ...this.props.path ]);
-    };
-    uploadFile = () => {
-        this.props.uploadFile([ ...this.props.path ]);
+    closeModal = () => this.setState({ isModalVisible: false });
+    createDirectory = async () => {
+        const path = this.props.path;
+        const dirname = this.dirname;
+
+        path.push(dirname);
+        this.dirname = "";
+        this.closeModal();
+
+        try {
+            const res = await axios.get(
+                "http://127.0.0.1:1024/server/create-directory",
+                { params: { name: "admin", dirname, path } }
+            );
+
+            this.props.refreshRootDirectory(res.data);
+        } catch (err) {
+            alert(err);
+        };
     };
     handleMouse = mouse => () => this.setState({mouse});
+    openModal = () => this.setState({ isModalVisible: true });
+    uploadFile = async () => {
+        try {
+            const res = await axios.get(
+                "http://127.0.0.1:1024/server/upload-file",
+                { params: { name: "admin" } }
+            );
+
+            this.props.refreshRootDirectory(res.data);
+        } catch (err) {
+            alert(err);
+        };
+    };
 });
 
 export default Directory;

@@ -1,7 +1,9 @@
 import Database from "./instances/Database.js";
 import Server from "./instances/Server.js";
-import FileReceiver from "./api/FileReceiver.js";
+import CreateDirectory from "./api/CreateDirectory.js";
+import GetRootDirectory from "./api/GetRootDirectory.js";
 import SignUp from "./api/SignUp.js";
+import UploadFile from "./api/UploadFile.js";
 
 export default class SVN {
     constructor(port) {
@@ -16,6 +18,19 @@ export default class SVN {
         Server.initialize();
         await Database.initialize();
     };
+    #setListeners = () => {
+        const createDirectory = new CreateDirectory("/server/create-directory");
+        const getRootDirectory =
+            new GetRootDirectory("/server/get-root-directory");
+        const signUp = new SignUp("/server/sign-up");
+        const uploadFile =
+            new UploadFile("/server/file-receiver", "file", "./files");
+
+        createDirectory.setListener();
+        getRootDirectory.setListener();
+        signUp.setListener();
+        uploadFile.setListener();
+    };
     #setServer = () => {
         Server.getServer().listen(this.#port, () => {
             console.log(
@@ -25,19 +40,11 @@ export default class SVN {
             );
         });
     };
-    #setListeners = () => {
-        const fileReceiver = new FileReceiver("post", "/server/file-receiver",
-            "file", "./files");
-        const signUp = new SignUp("post", "/server/sign-up");
-
-        fileReceiver.setListener();
-        signUp.setListener();
-    };
 
     main = async () => {
         await this.#initialize();
-        this.#setServer();
         this.#setListeners();
+        this.#setServer();
     };
 };
 

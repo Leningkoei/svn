@@ -15,15 +15,28 @@ export default connect(
     render() {
         const rootDirectory = this.props.rootDirectory;
 
+        console.log(rootDirectory);
+
         return (
             <div className="holder">
-                <Directory key={rootDirectory.name} {...rootDirectory} />
+                {rootDirectory
+                    ? <Directory key={rootDirectory.name} {...rootDirectory} />
+                    : <></>}
             </div>
         );
     };
 
-    componentDidMount() {
-        this.props.refreshRootDirectory({ name: "admin" });
+    async componentDidMount() {
+        try {
+            const res = await axios.get(
+                "http://127.0.0.1:1024/server/get-root-directory",
+                { params: { name: "admin" } }
+            );
+
+            this.props.refreshRootDirectory(res.data);
+        } catch (err) {
+            alert(err);
+        };
     };
 });
 

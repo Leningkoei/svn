@@ -20,10 +20,6 @@ export default class Directory {
     getChildren = () => this.#children;
     getType = () => this.#type;
 
-    static #map = {
-        directory: Directory.importAttributes,
-        file: File.importAttributes
-    };
     static importAttributes = attributes => {
         return new Directory(
             attributes.name,
@@ -32,6 +28,11 @@ export default class Directory {
             attributes.children.map(child => Directory.#map[child.type](child))
         );
     };
+    static #map = {
+        directory: Directory.importAttributes,
+        file: File.importAttributes
+    };
+
     exportAttributes = () => ({
         name: this.#name,
         fold: this.#fold,
@@ -39,5 +40,26 @@ export default class Directory {
         children: this.#children.map(child => child.exportAttributes()),
         type: this.#type
     });
+
+    addChild = child => this.#children.push(child);
+    changeFold = () => this.#fold = !this.#fold;
+
+    getCurrentDirectory = path => {
+        let result = this;
+        const pathCopy = [ ...path ].reverse();
+
+        pathCopy.pop();
+        while (path.length > 1) {
+            const currentDirectory = pathCopy.pop();
+
+            for (const child of result.#children) {
+                if (child.#name == currentDirectory) {
+                    result = child;
+                };
+            };
+        };
+
+        return result;
+    };
 };
 
