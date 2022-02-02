@@ -15,8 +15,6 @@ export default connect(
     render() {
         const rootDirectory = this.props.rootDirectory;
 
-        console.log(rootDirectory);
-
         return (
             <div className="holder">
                 {rootDirectory

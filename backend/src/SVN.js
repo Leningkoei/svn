@@ -1,5 +1,6 @@
 import Database from "./instances/Database.js";
 import Server from "./instances/Server.js";
+import ChangeFold from "./api/ChangeFold.js";
 import CreateDirectory from "./api/CreateDirectory.js";
 import GetRootDirectory from "./api/GetRootDirectory.js";
 import SignUp from "./api/SignUp.js";
@@ -19,6 +20,7 @@ export default class SVN {
         await Database.initialize();
     };
     #setListeners = () => {
+        const changeFold = new ChangeFold("/server/change-fold");
         const createDirectory = new CreateDirectory("/server/create-directory");
         const getRootDirectory =
             new GetRootDirectory("/server/get-root-directory");
@@ -26,6 +28,7 @@ export default class SVN {
         const uploadFile =
             new UploadFile("/server/file-receiver", "file", "./files");
 
+        changeFold.setListener();
         createDirectory.setListener();
         getRootDirectory.setListener();
         signUp.setListener();

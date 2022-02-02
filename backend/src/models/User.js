@@ -24,17 +24,11 @@ export default class User {
         attributes.password,
         Directory.importAttributes(attributes.rootDirectory)
     );
+
     exportAttributes = () => ({
         name: this.#name,
         password: this.#password,
         rootDirectory: this.#rootDirectory.exportAttributes()
     });
-
-    addObject = object => {
-        const currentDirectory =
-            this.#rootDirectory.getCurrentDirectory(object.getPath());
-
-        currentDirectory.addChild(object);
-    };
 };
 

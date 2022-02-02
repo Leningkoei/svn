@@ -54,10 +54,8 @@ export default class UserCollection {
     };
 
     // U;
-    addObjectForUser = async (user, object) => {
+    updateUser = async user => {
         const collection = this.#getCollection();
-
-        user.addObject(object);
 
         const id = user.getId();
 

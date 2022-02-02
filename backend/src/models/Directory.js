@@ -43,23 +43,22 @@ export default class Directory {
 
     addChild = child => this.#children.push(child);
     changeFold = () => this.#fold = !this.#fold;
+    getCurrentObject = path => {
+        let currentObject = this;                                               // It possible be a file, and file must be the last;
 
-    getCurrentDirectory = path => {
-        let result = this;
-        const pathCopy = [ ...path ].reverse();
+        for (let i = 1; i < path.length; i++) {                                 // Skip root;
+            if (currentObject.#children) {
+                const targetDirectoryName = path[i];
 
-        pathCopy.pop();
-        while (path.length > 1) {
-            const currentDirectory = pathCopy.pop();
-
-            for (const child of result.#children) {
-                if (child.#name == currentDirectory) {
-                    result = child;
+                for (const child of currentObject.#children) {
+                    if (child.#name == targetDirectoryName) {                   // It returns is not must be the last;
+                        currentObject = child;
+                    };
                 };
             };
         };
 
-        return result;
+        return currentObject;
     };
 };
 

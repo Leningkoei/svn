@@ -41,9 +41,7 @@ const Directory = connect(
                 >
                     <div className="start">
                         <span className="fold-button" onClick={this.changeFold}>
-                            {
-                                fold ? <RightOutlined /> : <DownOutlined />
-                            }
+                            {fold ? <RightOutlined /> : <DownOutlined />}
                         </span>
                         <span className="icon">
                             {fold ? <FolderOutlined /> : <FolderOpenOutlined />}
@@ -53,8 +51,8 @@ const Directory = connect(
                     {mouse ? (
                         <div className="end">
                             <FolderAddOutlined
-                                style={{ fontSize: "30px" }}
                                 onClick={this.openModal}
+                                style={{ fontSize: "30px" }}
                             />
                             <Modal
                                 visible={isModalVisible}
@@ -83,17 +81,18 @@ const Directory = connect(
                 </div>
                 {fold || !children.length ? <></> : (
                     <div className="content">
-                        <hr />
+                        <div
+                            onClick={this.changeFold}
+                            onMouseEnter={this.handleMouse(true)}
+                            onMouseLeave={this.handleMouse(false)}
+                            style={{
+                                backgroundColor: mouse ? "#dddddd" : "#ffffff"
+                            }}
+                        >
+                            <hr />
+                        </div>
                         <div className="children">
-                            {children.map(child => ({
-                                directory: (
-                                    <Directory
-                                        key={child.id}
-                                        {...child}
-                                    />
-                                ),
-                                file: <File key={child.id} {...child} />
-                            }[child.type]))}
+                            {children.map(child => this.map[child.type](child))}
                         </div>
                     </div>
                 )}
@@ -107,12 +106,22 @@ const Directory = connect(
     };
 
     dirname = "";
+    map = {
+        directory: child => <Directory key={child.name} {...child} />,
+        file: child => <File key={child.name} {...child} />
+    };
+
+    closeModal = () => this.setState({ isModalVisible: false });
+    handleMouse = mouse => () => this.setState({mouse});
+    openModal = () => this.setState({ isModalVisible: true });
 
     changeFold = async () => {
+        const path = this.props.path;
+
         try {
             const res = await axios.get(
                 "http://127.0.0.1:1024/server/change-fold",
-                { params: { name: "admin" } }
+                { params: { name: "admin", path } }
             );
 
             this.props.refreshRootDirectory(res.data);
@@ -120,28 +129,28 @@ const Directory = connect(
             alert(err);
         };
     };
-    closeModal = () => this.setState({ isModalVisible: false });
     createDirectory = async () => {
         const path = this.props.path;
         const dirname = this.dirname;
 
         path.push(dirname);
-        this.dirname = "";
-        this.closeModal();
 
         try {
-            const res = await axios.get(
+            const task = axios.get(
                 "http://127.0.0.1:1024/server/create-directory",
                 { params: { name: "admin", dirname, path } }
             );
+
+            this.dirname = "";
+            this.closeModal();
+
+            const res = await task;
 
             this.props.refreshRootDirectory(res.data);
         } catch (err) {
             alert(err);
         };
     };
-    handleMouse = mouse => () => this.setState({mouse});
-    openModal = () => this.setState({ isModalVisible: true });
     uploadFile = async () => {
         try {
             const res = await axios.get(

@@ -21,6 +21,7 @@ export default class File {
         attributes.path,
         attributes.type
     );
+
     exportAttributes = () => ({
         originalname: this.#originalname,
         filename: this.#filename,

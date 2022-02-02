@@ -8,6 +8,8 @@
         height: 32px;
         width: 100%;
 
+        padding-left: 8px;
+
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -51,9 +53,10 @@
         justify-content: flex-start;
 
         hr {
-            height: auto;
+            height: 100%;
 
-            margin: 0 7px 0 7px;
+            margin: 0 15px 0 15px;
+            border-width: 0 1px;
         }
         .children {
             height: auto;
