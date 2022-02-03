@@ -1,0 +1,15 @@
+.end {
+    height: auto;
+    width: auto;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+
+    label {
+        margin-left: 8px;
+        cursor: pointer;
+    }
+}
+

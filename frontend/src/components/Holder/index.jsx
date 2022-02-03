@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
-import Directory from "../Directory";
+import Directory from "./Directory";
 import "./style.scss";
 
 export default connect(
