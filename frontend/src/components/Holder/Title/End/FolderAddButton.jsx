@@ -32,6 +32,7 @@ export default connect(
                     onCancel={this.closeModal}
                 >
                     <Input
+                        key={new Date()}
                         placeholder="Directory Name"
                         onChange={event => this.dirname = event.target.value}
                     />
@@ -51,7 +52,7 @@ export default connect(
     openModal = () => this.setState({ isModalVisible: true });
 
     createDirectory = async () => {
-        const path = this.props.path;
+        const path = [ ...this.props.path ];
         const dirname = this.dirname;
 
         path.push(dirname);

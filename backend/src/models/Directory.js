@@ -51,8 +51,10 @@ export default class Directory {
                 const targetDirectoryName = path[i];
 
                 for (const child of currentObject.#children) {
-                    if (child.#name == targetDirectoryName) {                   // It returns is not must be the last;
-                        currentObject = child;
+                    if (child.getType() == "directory") {
+                        if (child.#name == targetDirectoryName) {               // It returns is not must be the last;
+                            currentObject = child;
+                        };
                     };
                 };
             };

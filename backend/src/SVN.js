@@ -26,7 +26,7 @@ export default class SVN {
             new GetRootDirectory("/server/get-root-directory");
         const signUp = new SignUp("/server/sign-up");
         const uploadFile =
-            new UploadFile("/server/file-receiver", "file", "./files");
+            new UploadFile("/server/upload-file", "file", "./files");
 
         changeFold.setListener();
         createDirectory.setListener();

@@ -30,16 +30,23 @@ export default class UploadFile {
             this.#url,
             upload.single(this.#fieldname),
             async (req, res) => {
-                const name = req.name;
-                const user = await this.#userCollection.readUserByName(name);
+                const name = req.body.name;
                 const originalname = req.file.originalname;
                 const filename = req.file.filename;
-                const path = req.path;
-                const file = new File(originalname, filename, path);
-                const userKai =
-                    await this.#userCollection.addObjectForUser(user, file);
+                const path = req.body.path.split(",");
 
-                res.send(userKai.rootDirectory.exportAttributes());
+                const user = await this.#userCollection.readUserByName(name);
+                const file = new File(originalname, filename, path);
+
+                const rootDirectory = user.getRootDirectory();
+                const currentDirectory = rootDirectory.getCurrentObject(path);
+
+                currentDirectory.addChild(file);
+
+                const task = this.#userCollection.updateUser(user);
+
+                res.send(user.getRootDirectory().exportAttributes());
+                await task;
             }
         );
 

@@ -11,11 +11,12 @@ export default connect(
         const isHover = this.state.isHover;
 
         return (
-            <>
+            <div>
                 <label
-                    htmlFor="file"
+                    htmlFor={this.props.path.join("/")}
                     onMouseEnter={() => this.setState({ isHover: true })}
                     onMouseLeave={() => this.setState({ isHover: false })}
+                    onClick={this.test}
                 >
                     <FileAddOutlined style={{
                         color: isHover ? "aqua" : "black",
@@ -23,13 +24,14 @@ export default connect(
                     }} />
                 </label>
                 <input
-                    id="file"
+                    id={this.props.path.join("/")}
                     name="file"
                     type="file"
+                    onClick={this.test}
                     onChange={this.uploadFile}
                     style={{ display: "none" }}
                 />
-            </>
+            </div>
         );
     };
 
@@ -37,10 +39,11 @@ export default connect(
         isHover: false
     };
 
+    test = () => console.log(this);
     uploadFile = async event => {
         const formData = new FormData();
 
-        const path = this.props.path;
+        const path = [ ...this.props.path ];
         const file = event.target.files[0];
 
         path.push(file.name);
