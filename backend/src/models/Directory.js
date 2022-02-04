@@ -13,12 +13,14 @@ export default class Directory {
     #path = null;
     #children = null;
     #type = "directory";
+    #onDelete = false;
 
     getName = () => this.#name;
     getFold = () => this.#fold;
     getPath = () => this.#path;
     getChildren = () => this.#children;
     getType = () => this.#type;
+    getOnDelete = () => this.#onDelete;
 
     static importAttributes = attributes => {
         return new Directory(
@@ -38,7 +40,7 @@ export default class Directory {
         fold: this.#fold,
         path: this.#path,
         children: this.#children
-            .filter(child => !child.onDelete)
+            .filter(child => !child.getOnDelete())
             .map(child => child.exportAttributes()),
         type: this.#type
     });
