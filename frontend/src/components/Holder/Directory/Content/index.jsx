@@ -1,6 +1,6 @@
 import React from "react";
-import Directory from "../Directory";
-import File from "../File";
+import Directory from "../../Directory";
+import File from "../../File";
 import "./style.scss";
 
 export default class Content extends React.Component {

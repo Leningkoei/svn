@@ -37,27 +37,39 @@ export default class Directory {
         name: this.#name,
         fold: this.#fold,
         path: this.#path,
-        children: this.#children.map(child => child.exportAttributes()),
+        children: this.#children
+            .filter(child => !child.onDelete)
+            .map(child => child.exportAttributes()),
         type: this.#type
     });
 
     addChild = child => this.#children.push(child);
     changeFold = () => this.#fold = !this.#fold;
+    #GetCurrentObjectHelpMap = {
+        "directory": child => child.getName(),
+        "file": child => child.getOriginalname()
+    };
     getCurrentObject = path => {
         let currentObject = this;                                               // It possible be a file, and file must be the last;
 
         for (let i = 1; i < path.length; i++) {                                 // Skip root;
-            if (currentObject.#children) {
-                const targetDirectoryName = path[i];
+            // if (currentObject.#children) {
+            const targetDirectoryName = path[i];
 
-                for (const child of currentObject.#children) {
-                    if (child.getType() == "directory") {
-                        if (child.#name == targetDirectoryName) {               // It returns is not must be the last;
-                            currentObject = child;
-                        };
-                    };
+            for (const child of currentObject.#children) {
+                // if (child.getType() == "directory") {
+                //     if (child.#name == targetDirectoryName) {               // It returns is not must be the last;
+                //         currentObject = child;
+                //     };
+                // };
+                if (
+                    this.#GetCurrentObjectHelpMap[child.getType()](child) ==
+                    targetDirectoryName
+                ) {
+                    currentObject = child;
                 };
             };
+            // };
         };
 
         return currentObject;

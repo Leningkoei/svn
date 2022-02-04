@@ -1,3 +1,5 @@
+import deleteFile from "../natives/deleteFile.js";
+
 export default class File {
     constructor(originalname, filename, path) {
         this.#originalname = originalname;
@@ -9,11 +11,13 @@ export default class File {
     #filename = null;
     #path = null;
     #type = "file";
+    #onDelete = false;
 
     getOriginalname = () => this.#originalname;
     getFilename = () => this.#filename;
     getPath = () => this.#path;
     getType = () => this.#type;
+    getOnDelete = () => this.#onDelete;
 
     static importAttributes = attributes => new File(
         attributes.originalname,
@@ -28,5 +32,10 @@ export default class File {
         path: this.#path,
         type: this.#type
     });
+
+    deleteIt = () => {
+        deleteFile(this.#filename);
+        this.#onDelete = true;
+    };
 };
 

@@ -2,6 +2,7 @@ import Database from "./instances/Database.js";
 import Server from "./instances/Server.js";
 import ChangeFold from "./api/ChangeFold.js";
 import CreateDirectory from "./api/CreateDirectory.js";
+import DeleteFile from "./api/DeleteFile.js";
 import GetRootDirectory from "./api/GetRootDirectory.js";
 import SignUp from "./api/SignUp.js";
 import UploadFile from "./api/UploadFile.js";
@@ -22,6 +23,7 @@ export default class SVN {
     #setListeners = () => {
         const changeFold = new ChangeFold("/server/change-fold");
         const createDirectory = new CreateDirectory("/server/create-directory");
+        const deleteFile = new DeleteFile("/server/delete-file");
         const getRootDirectory =
             new GetRootDirectory("/server/get-root-directory");
         const signUp = new SignUp("/server/sign-up");
@@ -30,6 +32,7 @@ export default class SVN {
 
         changeFold.setListener();
         createDirectory.setListener();
+        deleteFile.setListener();
         getRootDirectory.setListener();
         signUp.setListener();
         uploadFile.setListener();

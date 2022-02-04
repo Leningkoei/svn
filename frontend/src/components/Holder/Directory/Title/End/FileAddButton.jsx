@@ -13,10 +13,9 @@ export default connect(
         return (
             <div>
                 <label
-                    htmlFor={this.props.path.join("/")}
+                    htmlFor={"/" + this.props.path.join("/")}
                     onMouseEnter={() => this.setState({ isHover: true })}
                     onMouseLeave={() => this.setState({ isHover: false })}
-                    onClick={this.test}
                 >
                     <FileAddOutlined style={{
                         color: isHover ? "aqua" : "black",
@@ -24,10 +23,9 @@ export default connect(
                     }} />
                 </label>
                 <input
-                    id={this.props.path.join("/")}
+                    id={"/" + this.props.path.join("/")}
                     name="file"
                     type="file"
-                    onClick={this.test}
                     onChange={this.uploadFile}
                     style={{ display: "none" }}
                 />
@@ -39,7 +37,6 @@ export default connect(
         isHover: false
     };
 
-    test = () => console.log(this);
     uploadFile = async event => {
         const formData = new FormData();
 

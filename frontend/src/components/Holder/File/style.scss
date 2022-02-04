@@ -1,6 +1,11 @@
 .file {
-    height: 24px;
+    height: 32px;
     width: auto;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 
     .icon {
         margin-left: 9px;
