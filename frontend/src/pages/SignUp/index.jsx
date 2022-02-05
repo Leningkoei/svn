@@ -1,5 +1,5 @@
-import axios from "axios";
 import { Button, Form, Input } from "antd";
+import axios from "axios";
 import React from "react";
 import homeWithBlueDoor from "../../assets/home-with-blue-door.jpg";
 import "./style.scss";
@@ -65,7 +65,6 @@ export default class SignUp extends React.Component {
 
     gotoSignIn = () => this.props.history.replace("/sign-in");
     signUp = async () => {
-
         const name = this.name;
         const password = this.password;
 
@@ -76,6 +75,10 @@ export default class SignUp extends React.Component {
             );
 
             if (res.data.result) {
+                const token = res.data.token;
+
+                localStorage.setItem("token", token);
+
                 this.props.history.replace("/main");
             } else {
                 throw new Error(res.data.msg);

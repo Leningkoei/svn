@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
 import {
@@ -10,7 +9,7 @@ import {
 import "./style.scss";
 
 export default connect(
-    () => ({}),
+    state => ({ API: state.API }),
     {
         refreshRootDirectory: data => ({ type: "refreshRootDirectory", data })
     }
@@ -32,13 +31,12 @@ export default connect(
     };
 
     changeFold = async () => {
+        const method = this.props.API.changeFold;
+
         const path = this.props.path;
 
         try {
-            const res = await axios.get(
-                "http://127.0.0.1:1024/server/change-fold",
-                { params: { name: "admin", path } }
-            );
+            const res = await method({ path });
 
             this.props.refreshRootDirectory(res.data);
         } catch (err) {

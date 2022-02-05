@@ -1,3 +1,4 @@
+import Token from "../Token.js";
 import Server from "../instances/Server.js";
 import UserCollection from "../collections/UserCollection.js";
 
@@ -17,8 +18,9 @@ export default class DeleteFile {
     setListener = () => {
         this.#server.get(
             this.#url,
+            Token.mindware,
             async (req, res) => {
-                const name = req.query.name;
+                const name = req.user.getName();
                 const path = req.query.path;
                 const originalname = req.query.originalname;
 

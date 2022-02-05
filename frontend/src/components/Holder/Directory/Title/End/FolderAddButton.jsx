@@ -1,11 +1,10 @@
 import { Input, Modal } from "antd";
-import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
 import { FolderAddOutlined } from "@ant-design/icons";
 
 export default connect(
-    () => ({}),
+    state => ({ API: state.API }),
     { refreshRootDirectory: data => ({ type: "refreshRootDirectory", data }) }
 )(class FolderAddButton extends React.Component {
     render() {
@@ -52,22 +51,20 @@ export default connect(
     openModal = () => this.setState({ isModalVisible: true });
 
     createDirectory = async () => {
+        const method = this.props.API.createDirectory;
+
         const path = [ ...this.props.path ];
         const dirname = this.dirname;
 
         path.push(dirname);
 
         try {
-            const task = axios.get(
-                "http://127.0.0.1:1024/server/create-directory",
-                { params: { name: "admin", dirname, path } }
-            );
+            const task = method({ dirname, path });
 
             this.dirname = "";
             this.closeModal();
 
             const res = await task;
-
             this.props.refreshRootDirectory(res.data);
         } catch (err) {
             alert(err);

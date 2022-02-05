@@ -1,3 +1,4 @@
+import Token from "../Token.js";
 import Server from "../instances/Server.js";
 import UserCollection from "../collections/UserCollection.js";
 import Directory from "../models/Directory.js";
@@ -18,8 +19,9 @@ export default class CreateDirectory {
     setListener = () => {
         this.#server.get(
             this.#url,
+            Token.mindware,
             async (req, res) => {
-                const name = req.query.name;
+                const name = req.user.getName();
                 const dirname = req.query.dirname;
                 const path = req.query.path;
 

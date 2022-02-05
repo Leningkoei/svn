@@ -1,4 +1,5 @@
 import { Button, Form, Input } from "antd";
+import axios from "axios";
 import React from "react";
 import homeWithBlueDoor from "../../assets/home-with-blue-door.jpg";
 import "./style.scss";
@@ -24,7 +25,9 @@ export default class SignIn extends React.Component {
                                 message: "Please input your name!"
                             } ]}
                         >
-                            <Input />
+                            <Input
+                                onBlur={event => this.name = event.target.value}
+                            />
                         </Form.Item>
                         <Form.Item
                             label="password"
@@ -34,7 +37,10 @@ export default class SignIn extends React.Component {
                                 message: "Please input your password!"
                             } ]}
                         >
-                            <Input.Password />
+                            <Input.Password
+                                onBlur={event =>
+                                    this.password = event.target.value}
+                            />
                         </Form.Item>
                         <Form.Item>
                             <div className="buttons">
@@ -54,7 +60,32 @@ export default class SignIn extends React.Component {
         );
     };
 
+    name = "";
+    password = "";
+
     gotoSignUp = () => this.props.history.replace("/sign-up");
-    signIn = () => this.props.history.replace("/main");
+    signIn = async () => {
+        const name = this.name;
+        const password = this.password;
+
+        try {
+            const res = await axios.post(
+                "http://127.0.0.1:1024/server/sign-in",
+                { name, password }
+            );
+
+            if (res.data.result) {
+                const token = res.data.token;
+
+                localStorage.setItem("token", token);
+
+                this.props.history.replace("/main");
+            } else {
+                throw new Error(res.data.msg);
+            };
+        } catch (err) {
+            alert(err);
+        };
+    };
 };
 

@@ -6,6 +6,7 @@ import "./style.scss";
 
 export default connect(
     state => ({
+        API: state.API,
         rootDirectory: state.rootDirectory
     }),
     {
@@ -25,11 +26,10 @@ export default connect(
     };
 
     async componentDidMount() {
+        const API = this.props.API;
+
         try {
-            const res = await axios.get(
-                "http://127.0.0.1:1024/server/get-root-directory",
-                { params: { name: "admin" } }
-            );
+            const res = await API.getRootDirectory();
 
             this.props.refreshRootDirectory(res.data);
         } catch (err) {

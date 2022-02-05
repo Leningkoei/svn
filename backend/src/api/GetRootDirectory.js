@@ -1,3 +1,4 @@
+import Token from "../Token.js";
 import Server from "../instances/Server.js";
 import UserCollection from "../collections/UserCollection.js";
 
@@ -17,8 +18,10 @@ export default class GetRootDirectory {
     setListener = () => {
         this.#server.get(
             this.#url,
+            Token.mindware,
             async (req, res) => {
-                const name = req.query.name;
+                const name = req.user.getName();
+
                 const user = await this.#userCollection.readUserByName(name);
 
                 res.send(user.getRootDirectory().exportAttributes());

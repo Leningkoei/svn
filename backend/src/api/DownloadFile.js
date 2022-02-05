@@ -1,4 +1,5 @@
 import path from "path";
+import Token from "../Token.js";
 import Server from "../instances/Server.js";
 import UserCollection from "../collections/UserCollection.js";
 
@@ -19,11 +20,11 @@ export default class DownloadFile {
         this.#server.get(
             this.#url,
             async (req, res) => {
-                const name = req.query.name;
+                const token = req.query.token;
                 const originalpath = req.query.path;
                 const originalname = req.query.originalname;
 
-                const user = await this.#userCollection.readUserByName(name);
+                const user = await Token.getUserByToken(token);
                 const rootDirectory = user.getRootDirectory();
                 const currentFile = rootDirectory.getCurrentObject(originalpath);
 

@@ -1,4 +1,5 @@
 import multer from "multer";
+import Token from "../Token.js";
 import Server from "../instances/Server.js";
 import UserCollection from "../collections/UserCollection.js";
 import File from "../models/File.js";
@@ -29,8 +30,9 @@ export default class UploadFile {
         this.#server.post(
             this.#url,
             upload.single(this.#fieldname),
+            Token.mindware,
             async (req, res) => {
-                const name = req.body.name;
+                const name = req.user.getName();
                 const originalname = req.file.originalname;
                 const filename = req.file.filename;
                 const path = req.body.path.split(",");

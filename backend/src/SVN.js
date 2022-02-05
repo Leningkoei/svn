@@ -6,6 +6,7 @@ import DeleteDirectory from "./api/DeleteDirectory.js";
 import DeleteFile from "./api/DeleteFile.js";
 import DownloadFile from "./api/DownloadFile.js";
 import GetRootDirectory from "./api/GetRootDirectory.js";
+import SignIn from "./api/SignIn.js";
 import SignUp from "./api/SignUp.js";
 import UploadFile from "./api/UploadFile.js";
 
@@ -30,6 +31,7 @@ export default class SVN {
         const downloadFile = new DownloadFile("/server/download-file");
         const getRootDirectory =
             new GetRootDirectory("/server/get-root-directory");
+        const signIn = new SignIn("/server/sign-in");
         const signUp = new SignUp("/server/sign-up");
         const uploadFile =
             new UploadFile("/server/upload-file", "file", "./files");
@@ -40,6 +42,7 @@ export default class SVN {
         deleteFile.setListener();
         downloadFile.setListener();
         getRootDirectory.setListener();
+        signIn.setListener();
         signUp.setListener();
         uploadFile.setListener();
     };

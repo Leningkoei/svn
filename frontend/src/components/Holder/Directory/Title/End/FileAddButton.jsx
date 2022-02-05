@@ -1,10 +1,9 @@
-import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
 import { FileAddOutlined } from "@ant-design/icons";
 
 export default connect(
-    () => ({}),
+    state => ({ API: state.API }),
     { refreshRootDirectory: data => ({ type: "refreshRootDirectory", data }) }
 )(class FileAddButton extends React.Component {
     render() {
@@ -38,6 +37,8 @@ export default connect(
     };
 
     uploadFile = async event => {
+        const method = this.props.API.uploadFile;
+
         const formData = new FormData();
 
         const path = [ ...this.props.path ];
@@ -50,13 +51,7 @@ export default connect(
         formData.append("file", file, file.name);
 
         try {
-            const res = await axios({
-                method: "post",
-                url: "http://127.0.0.1:1024/server/upload-file",
-                data: formData,
-                headers: { "Content-Type": "multipart/form-data" },
-                responseType: "json"
-            });
+            const res = await method(formData);
 
             this.props.refreshRootDirectory(res.data);
         } catch (err) {

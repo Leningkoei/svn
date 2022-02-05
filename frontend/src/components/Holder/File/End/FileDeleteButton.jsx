@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { DeleteOutlined } from "@ant-design/icons";
 
 export default connect(
-    () => ({}),
+    state => ({ API: state.API }),
     { refreshRootDirectory: data => ({ type: "refreshRootDirectory", data })}
 )(class FileDeleteButton extends React.Component {
     render() {
@@ -30,15 +30,18 @@ export default connect(
     state = { isHover: false };
 
     deleteFile = async () => {
+        const method = this.props.API.deleteFile;
+
         const path = this.props.path;
         const originalname = this.props.originalname;
 
-        const res = await axios.get(
-            "http://127.0.0.1:1024/server/delete-file",
-            { params: { name: "admin", originalname, path } }
-        );
+        try {
+            const res = await method({ originalname, path });
 
-        this.props.refreshRootDirectory(res.data);
+            this.props.refreshRootDirectory(res.data);
+        } catch (err) {
+            alert(err);
+        };
     };
 });
 

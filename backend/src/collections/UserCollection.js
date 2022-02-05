@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import Database from "../instances/Database.js";
 import User from "../models/User.js";
 
@@ -14,29 +15,26 @@ export default class UserCollection {
     createUser = async user => {
         const collection = this.#getCollection();
 
-        const name = user.getName();
+        const { id, ...document } = user.exportAttributes();
 
-        if (await this.isNewName(name)) {
-            const { id, ...document } = user.exportAttributes();
+        const result = await collection.insertOne(document);
 
-            await collection.insertOne(document);
-
-            return true;
-        } else {
-            return false;
-        };
+        return result.insertedId.toString();
     };
 
     // R;
-    isNewName = async name => {
+    readUserById = async id => {
         const collection = this.#getCollection();
 
-        const user = await this.readUserByName(name);
+        const query = { _id: new ObjectId(id) };
+        const options = {};
 
-        if (user) {
-            return false;
+        const result = await collection.findOne(query, options);
+
+        if (result) {
+            return User.importAttributes(result);
         } else {
-            return true;
+            return undefined;
         };
     };
     readUserByName = async name => {
@@ -44,6 +42,7 @@ export default class UserCollection {
 
         const query = { name };
         const options = {};
+
         const result = await collection.findOne(query, options);
 
         if (result) {
