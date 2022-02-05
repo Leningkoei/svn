@@ -47,6 +47,11 @@ export default class Directory {
 
     addChild = child => this.#children.push(child);
     changeFold = () => this.#fold = !this.#fold;
+    deleteIt = () => {
+        this.#onDelete = true;
+
+        this.#children.forEach(child => child.deleteIt());
+    };
     #GetCurrentObjectHelpMap = {
         "directory": child => child.getName(),
         "file": child => child.getOriginalname()

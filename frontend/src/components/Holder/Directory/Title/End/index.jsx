@@ -2,6 +2,7 @@ import { Input, Modal } from "antd";
 import axios from "axios";
 import React from "react";
 import { FileAddOutlined } from "@ant-design/icons";
+import DirectoryDeleteButton from "./DirectoryDeleteButton";
 import FileAddButton from "./FileAddButton";
 import FolderAddButton from "./FolderAddButton";
 import "./style.scss";
@@ -18,6 +19,7 @@ export default class End extends React.Component {
             >
                 <FolderAddButton path={path} />
                 <FileAddButton path={path} />
+                <DirectoryDeleteButton path={path} />
             </div>
         );
     };

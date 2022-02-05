@@ -2,6 +2,7 @@ import Database from "./instances/Database.js";
 import Server from "./instances/Server.js";
 import ChangeFold from "./api/ChangeFold.js";
 import CreateDirectory from "./api/CreateDirectory.js";
+import DeleteDirectory from "./api/DeleteDirectory.js";
 import DeleteFile from "./api/DeleteFile.js";
 import DownloadFile from "./api/DownloadFile.js";
 import GetRootDirectory from "./api/GetRootDirectory.js";
@@ -24,6 +25,7 @@ export default class SVN {
     #setListeners = () => {
         const changeFold = new ChangeFold("/server/change-fold");
         const createDirectory = new CreateDirectory("/server/create-directory");
+        const deleteDirectory = new DeleteDirectory("/server/delete-directory");
         const deleteFile = new DeleteFile("/server/delete-file");
         const downloadFile = new DownloadFile("/server/download-file");
         const getRootDirectory =
@@ -34,6 +36,7 @@ export default class SVN {
 
         changeFold.setListener();
         createDirectory.setListener();
+        deleteDirectory.setListener();
         deleteFile.setListener();
         downloadFile.setListener();
         getRootDirectory.setListener();
