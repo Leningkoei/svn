@@ -20,10 +20,9 @@ export default class DeleteDirectory {
             this.#url,
             Token.mindware,
             async (req, res) => {
-                const name = req.user.getName();
+                const user = req.user;
                 const path = req.query.path;
 
-                const user = await this.#userCollection.readUserByName(name);
                 const rootDirectory = user.getRootDirectory();
                 const currentDirectory = rootDirectory.getCurrentObject(path);
 

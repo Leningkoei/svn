@@ -20,9 +20,7 @@ export default class GetRootDirectory {
             this.#url,
             Token.mindware,
             async (req, res) => {
-                const name = req.user.getName();
-
-                const user = await this.#userCollection.readUserByName(name);
+                const user = req.user;
 
                 res.send(user.getRootDirectory().exportAttributes());
             }

@@ -81,7 +81,7 @@ export default class SignIn extends React.Component {
 
                 this.props.history.replace("/main");
             } else {
-                throw new Error(res.data.msg);
+                this.props.history.replace("/sign-in");
             };
         } catch (err) {
             alert(err);

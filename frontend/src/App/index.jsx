@@ -7,18 +7,31 @@ import "./style.scss";
 
 export default class App extends React.Component {
     render() {
+        const token = localStorage.getItem("token");
+        console.log(location.href);
+
         return (
             <div className="app">
                 <BrowserRouter>
                     <Switch>
+                        <Route path="/404" component={NotFound} />
                         <Route path="/main" component={Main} />
                         <Route path="/sign-in" component={SignIn} />
                         <Route path="/sign-up" component={SignUp} />
-                        <Redirect to="/sign-up" />
+                        <Redirect
+                            to={location.href.length == 22
+                                ? token ? "/main" : "/sign-in" : "/404"}
+                        />
                     </Switch>
                 </BrowserRouter>
             </div>
         );
+    };
+};
+
+class NotFound extends React.Component {
+    render() {
+        return <h1>Not Found</h1>;
     };
 };
 
