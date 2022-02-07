@@ -3,7 +3,7 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Main from "../pages/Main";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
-import "./style.scss";
+import style from "./style.scss";
 
 export default class App extends React.Component {
     render() {
@@ -11,7 +11,7 @@ export default class App extends React.Component {
         console.log(location.href);
 
         return (
-            <div className="app">
+            <div className={style["app"]}>
                 <BrowserRouter>
                     <Switch>
                         <Route path="/404" component={NotFound} />

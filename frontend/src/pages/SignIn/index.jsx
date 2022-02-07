@@ -2,15 +2,15 @@ import { Button, Form, Input } from "antd";
 import axios from "axios";
 import React from "react";
 import homeWithBlueDoor from "../../assets/home-with-blue-door.jpg";
-import "./style.scss";
+import style from "./style.scss";
 
 export default class SignIn extends React.Component {
     render() {
         return (
-            <div className="sign-in">
-                <div className="content">
+            <div className={style["sign-in"]}>
+                <div className={style["content"]}>
                     <img
-                        id="home-with-blue-door"
+                        id={style["home-with-blue-door"]}
                         alt="home with blue door"
                         src={homeWithBlueDoor}
                     />
@@ -43,7 +43,7 @@ export default class SignIn extends React.Component {
                             />
                         </Form.Item>
                         <Form.Item>
-                            <div className="buttons">
+                            <div className={style["buttons"]}>
                                 <Button htmlType="reset">Reset</Button>
                                 <Button
                                     type="primary"

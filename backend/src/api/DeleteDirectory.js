@@ -18,9 +18,10 @@ export default class DeleteDirectory {
     setListener = () => {
         this.#server.get(
             this.#url,
-            Token.mindware,
+            Token.middleware,
             async (req, res) => {
                 const user = req.user;
+
                 const path = req.query.path;
 
                 const rootDirectory = user.getRootDirectory();

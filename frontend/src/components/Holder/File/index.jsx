@@ -1,7 +1,7 @@
 import React from "react";
 import { FileOutlined } from "@ant-design/icons";
 import End from "./End";
-import "./style.scss";
+import style from "./style.scss";
 
 export default class File extends React.Component {
     render() {
@@ -12,13 +12,13 @@ export default class File extends React.Component {
 
         return (
             <div
-                className="file"
+                className={style["file"]}
                 onMouseEnter={() => this.setState({ isHover: true })}
                 onMouseLeave={() => this.setState({ isHover: false })}
                 style={{ backgroundColor: isHover ? "#dddddd" : "#ffffff" }}
             >
-                <div className="start/file">
-                    <span className="icon"><FileOutlined /></span>
+                <div className={style["start/file"]}>
+                    <span className={style["icon"]}><FileOutlined /></span>
                     <span>{originalname}</span>
                 </div>
                 <End

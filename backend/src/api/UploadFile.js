@@ -29,15 +29,15 @@ export default class UploadFile {
 
         this.#server.post(
             this.#url,
+            Token.middleware,
             upload.single(this.#fieldname),
-            Token.mindware,
             async (req, res) => {
-                const name = req.user.getName();
+                const user = req.user;
+
                 const originalname = req.file.originalname;
                 const filename = req.file.filename;
                 const path = req.body.path.split(",");
 
-                const user = await this.#userCollection.readUserByName(name);
                 const file = new File(originalname, filename, path);
 
                 const rootDirectory = user.getRootDirectory();

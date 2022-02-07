@@ -18,13 +18,13 @@ export default class DeleteFile {
     setListener = () => {
         this.#server.get(
             this.#url,
-            Token.mindware,
+            Token.middleware,
             async (req, res) => {
-                const name = req.user.getName();
+                const user = req.user;
+
                 const path = req.query.path;
                 const originalname = req.query.originalname;
 
-                const user = await this.#userCollection.readUserByName(name);
                 const rootDirectory = user.getRootDirectory();
                 const currentFile = rootDirectory.getCurrentObject(path);
 

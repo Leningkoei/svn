@@ -5,7 +5,7 @@ export default class Token {
     static #optionStr = "cnpnmslsb";
 
     static create = id => JWT.sign({ id }, Token.#optionStr);
-    static mindware = async (req, res, next) => {
+    static middleware = async (req, res, next) => {
         const userCollection = new UserCollection();
 
         const token = req.headers.authorization.split(" ")[1];
@@ -14,9 +14,13 @@ export default class Token {
 
         const user = await userCollection.readUserById(id);
 
-        req.user = user;
+        if (user) {
+            req.user = user;
 
-        next();
+            next();
+        } else {
+            res.send({ result: false, msg: "Token ????" });
+        };
     };
     static getUserByToken = async token => {
         const userCollection = new UserCollection();

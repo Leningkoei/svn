@@ -5,7 +5,7 @@ import { FileAddOutlined } from "@ant-design/icons";
 import DirectoryDeleteButton from "./DirectoryDeleteButton";
 import FileAddButton from "./FileAddButton";
 import FolderAddButton from "./FolderAddButton";
-import "./style.scss";
+import style from "./style.scss";
 
 export default class End extends React.Component {
     render() {
@@ -14,7 +14,7 @@ export default class End extends React.Component {
 
         return (
             <div
-                className="end"
+                className={style["end"]}
                 style={{ display: isVisible ? "flex" : "none" }}
             >
                 <FolderAddButton path={path} />

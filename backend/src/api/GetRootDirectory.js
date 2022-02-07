@@ -18,7 +18,7 @@ export default class GetRootDirectory {
     setListener = () => {
         this.#server.get(
             this.#url,
-            Token.mindware,
+            Token.middleware,
             async (req, res) => {
                 const user = req.user;
 

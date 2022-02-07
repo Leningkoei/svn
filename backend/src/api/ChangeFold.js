@@ -18,12 +18,12 @@ export default class ChangeFold {
     setListener = () => {
         this.#server.get(
             this.#url,
-            Token.mindware,
+            Token.middleware,
             async (req, res) => {
-                const name = req.user.getName();
+                const user = req.user;
+
                 const path = req.query.path;
 
-                const user = await this.#userCollection.readUserByName(name);
                 const rootDirectory = user.getRootDirectory();
                 const currentDirectory = rootDirectory.getCurrentObject(path);
 

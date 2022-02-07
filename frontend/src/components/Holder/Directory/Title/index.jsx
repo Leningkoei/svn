@@ -1,7 +1,7 @@
 import React from "react";
 import End from "./End";
 import Start from "./Start";
-import "./style.scss";
+import style from "./style.scss";
 
 export default class Title extends React.Component {
     render() {
@@ -13,7 +13,7 @@ export default class Title extends React.Component {
 
         return (
             <div
-                className="title"
+                className={style["title"]}
                 style={{ backgroundColor: mouse ? "#dddddd" : "#ffffff" }}
                 onMouseEnter={handleMouse(true)}
                 onMouseLeave={handleMouse(false)}

@@ -2,7 +2,7 @@ import React from "react";
 import File from "../File";
 import Content from "./Content";
 import Title from "./Title";
-import "./style.scss";
+import style from "./style.scss";
 
 export default class Directory extends React.Component {
      render() {
@@ -15,7 +15,7 @@ export default class Directory extends React.Component {
 
         return (
             <div
-                className="directory"
+                className={style["directory"]}
             >
                 <Title
                     name={name}

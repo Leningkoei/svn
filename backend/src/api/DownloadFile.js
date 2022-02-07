@@ -25,13 +25,19 @@ export default class DownloadFile {
                 const originalname = req.query.originalname;
 
                 const user = await Token.getUserByToken(token);
-                const rootDirectory = user.getRootDirectory();
-                const currentFile = rootDirectory.getCurrentObject(originalpath);
 
-                const filename = currentFile.getFilename();
-                const filepath = path.resolve("files", filename);
+                if (user) {
+                    const rootDirectory = user.getRootDirectory();
+                    const currentFile =
+                        rootDirectory.getCurrentObject(originalpath);
 
-                res.download(filepath, originalname);
+                    const filename = currentFile.getFilename();
+                    const filepath = path.resolve("files", filename);
+
+                    res.download(filepath, originalname);
+                } else {
+                    res.send({ result: false, msg: "Token ????" });
+                };
             }
         );
 

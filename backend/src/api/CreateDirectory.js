@@ -19,13 +19,13 @@ export default class CreateDirectory {
     setListener = () => {
         this.#server.get(
             this.#url,
-            Token.mindware,
+            Token.middleware,
             async (req, res) => {
-                const name = req.user.getName();
+                const user = req.user;
+
                 const dirname = req.query.dirname;
                 const path = req.query.path;
 
-                const user = await this.#userCollection.readUserByName(name);
                 const directory = new Directory(dirname, false, path, []);
 
                 const rootDirectory = user.getRootDirectory();

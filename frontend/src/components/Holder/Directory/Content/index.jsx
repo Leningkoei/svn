@@ -1,7 +1,7 @@
 import React from "react";
 import Directory from "../../Directory";
 import File from "../../File";
-import "./style.scss";
+import style from "./style.scss";
 
 export default class Content extends React.Component {
     render() {
@@ -12,7 +12,7 @@ export default class Content extends React.Component {
 
         return (
             <div
-                className="content"
+                className={style["content"]}
                 style={{ display: isVisible ? "flex" : "none" }}
             >
                 <div
@@ -22,7 +22,7 @@ export default class Content extends React.Component {
                 >
                     <hr />
                 </div>
-                <div className="children">
+                <div className={style["children"]}>
                     {children.map(child => this.map[child.type](child))}
                 </div>
             </div>

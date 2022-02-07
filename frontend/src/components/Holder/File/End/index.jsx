@@ -1,7 +1,7 @@
 import React from "react";
 import FileDeleteButton from "./FileDeleteButton";
 import FileDownloadButton from "./FileDownloadButton";
-import "./style.scss";
+import style from "./style.scss";
 
 export default class End extends React.Component {
     render() {
@@ -11,7 +11,7 @@ export default class End extends React.Component {
 
         return (
             <div
-                className="end/file"
+                className={style["end"]}
                 style={{ display: isVisible ? "flex" : "none" }}
             >
                 <FileDownloadButton originalname={originalname} path={path} />
