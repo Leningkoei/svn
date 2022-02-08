@@ -8,7 +8,6 @@ import style from "./style.scss";
 export default class App extends React.Component {
     render() {
         const token = localStorage.getItem("token");
-        console.log(location.href);
 
         return (
             <div className={style["app"]}>
