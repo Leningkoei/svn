@@ -21,8 +21,9 @@ export default connect(
                     onClick={path.length == 1
                         ? undefined : this.deleteDirectory}
                     style={{
-                        color: isHover ? "red" : "black",
-                        fontSize: "24px"
+                        color: isHover && path.length !== 1 ? "red" : "black",
+                        fontSize: "24px",
+                        cursor: path.length == 1 ? "not-allowed" : "pointer"
                     }}
                 />
             </span>

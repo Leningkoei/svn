@@ -1,7 +1,8 @@
 import axios from "axios";
+import host from "../../../host.js";
 
 const initState = class API {
-    static #baseUrl = "http://127.0.0.1:1024/server";
+    static #baseUrl = `${host}:1024/server`;
 
     static #getAuthorization = () => {
         const token = localStorage.getItem("token");

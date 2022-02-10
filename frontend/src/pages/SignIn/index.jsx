@@ -2,6 +2,7 @@ import { Button, Form, Input } from "antd";
 import axios from "axios";
 import React from "react";
 import homeWithBlueDoor from "../../assets/home-with-blue-door.jpg";
+import host from "../../../host.js";
 import style from "./style.scss";
 
 export default class SignIn extends React.Component {
@@ -70,7 +71,7 @@ export default class SignIn extends React.Component {
 
         try {
             const res = await axios.post(
-                "http://127.0.0.1:1024/server/sign-in",
+                `${host}:1024/server/sign-in`,
                 { name, password }
             );
 
