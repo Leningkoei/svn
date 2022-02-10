@@ -18,7 +18,7 @@ export default class App extends React.Component {
                         <Route path="/sign-in" component={SignIn} />
                         <Route path="/sign-up" component={SignUp} />
                         <Redirect
-                            to={location.href.length == 22
+                            to={location.href[location.href.length - 1] == "/"
                                 ? token ? "/main" : "/sign-in" : "/404"}
                         />
                     </Switch>
