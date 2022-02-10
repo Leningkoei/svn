@@ -30,7 +30,7 @@ export default connect(
     downloadFile = () => {
         const method = this.props.API.downloadFile;
 
-        const origialname = this.props.originalname;
+        const originalname = this.props.originalname;
         const path = this.props.path;
 
         method(originalname, path);
