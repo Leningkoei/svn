@@ -43,12 +43,25 @@ export default class UploadFile {
                 const rootDirectory = user.getRootDirectory();
                 const currentDirectory = rootDirectory.getCurrentObject(path);
 
-                currentDirectory.addChild(file);
+                if (currentDirectory.getType() == "directory") {
+                    currentDirectory.addChild(file);
 
-                const task = this.#userCollection.updateUser(user);
+                    const task = this.#userCollection.updateUser(user);
 
-                res.send(user.getRootDirectory().exportAttributes());
-                await task;
+                    res.send({
+                        result: true,
+                        rootDirectory:
+                            user.getRootDirectory().exportAttributes()
+                    });
+                    await task;
+                } else {
+                    file.deleteIt();
+
+                    res.send({
+                        result: false,
+                        msg: "This file has been exist!"
+                    });
+                };
             }
         );
 

@@ -65,7 +65,12 @@ export default connect(
             this.closeModal();
 
             const res = await task;
-            this.props.refreshRootDirectory(res.data);
+
+            if (res.data.result) {
+                this.props.refreshRootDirectory(res.data.rootDirectory);
+            } else {
+                throw new Error(res.data.msg);
+            };
         } catch (err) {
             alert(err);
         };

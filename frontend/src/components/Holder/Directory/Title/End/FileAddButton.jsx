@@ -53,7 +53,11 @@ export default connect(
         try {
             const res = await method(formData);
 
-            this.props.refreshRootDirectory(res.data);
+            if (res.data.result) {
+                this.props.refreshRootDirectory(res.data.rootDirectory);
+            } else {
+                throw new Error(res.data.msg);
+            };
         } catch (err) {
             alert(err);
         };

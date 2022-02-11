@@ -26,17 +26,31 @@ export default class CreateDirectory {
                 const dirname = req.query.dirname;
                 const path = req.query.path;
 
-                const directory = new Directory(dirname, false, path, []);
-
                 const rootDirectory = user.getRootDirectory();
                 const currentDirectory = rootDirectory.getCurrentObject(path);
 
-                currentDirectory.addChild(directory);
+                if (
+                    currentDirectory.getType() == "directory" &&
+                    currentDirectory.getName() != dirname
+                ) {
+                    const directory = new Directory(dirname, false, path, []);
 
-                const task = this.#userCollection.updateUser(user);
+                    currentDirectory.addChild(directory);
 
-                res.send(user.getRootDirectory().exportAttributes());
-                await task;
+                    const task = this.#userCollection.updateUser(user);
+
+                    res.send({
+                        result: true,
+                        rootDirectory:
+                            user.getRootDirectory().exportAttributes()
+                    });
+                    await task;
+                } else {
+                    res.send({
+                        result: false,
+                        msg: "This directory has been existed!"
+                    });
+                };
             }
         );
 
