@@ -9,7 +9,7 @@ export default class Database {
 
     static initialize = async () => {
         if (Database.#INSTANCE === null) {
-            const url = "mongodb://localhost:27017";
+            const url = "mongodb://127.0.0.1:27017";
             const client = new MongoClient(url);
 
             await client.connect();
