@@ -1,6 +1,7 @@
 import Token from "../Token.js";
 import Server from "../instances/Server.js";
 import UserCollection from "../collections/UserCollection.js";
+import { checkObjectNameFromURL } from "../middlewares/checkObjectName.js";
 import Directory from "../models/Directory.js";
 
 export default class CreateDirectory {
@@ -20,6 +21,7 @@ export default class CreateDirectory {
         this.#server.get(
             this.#url,
             Token.middleware,
+            checkObjectNameFromURL,
             async (req, res) => {
                 const user = req.user;
 
@@ -29,28 +31,18 @@ export default class CreateDirectory {
                 const rootDirectory = user.getRootDirectory();
                 const currentDirectory = rootDirectory.getCurrentObject(path);
 
-                if (
-                    currentDirectory.getType() == "directory" &&
-                    currentDirectory.getName() != dirname
-                ) {
-                    const directory = new Directory(dirname, false, path, []);
+                const directory = new Directory(dirname, false, path, []);
 
-                    currentDirectory.addChild(directory);
+                currentDirectory.addChild(directory);
 
-                    const task = this.#userCollection.updateUser(user);
+                const task = this.#userCollection.updateUser(user);
 
-                    res.send({
-                        result: true,
-                        rootDirectory:
-                            user.getRootDirectory().exportAttributes()
-                    });
-                    await task;
-                } else {
-                    res.send({
-                        result: false,
-                        msg: "This directory has been existed!"
-                    });
-                };
+                res.send({
+                    result: true,
+                    rootDirectory:
+                        user.getRootDirectory().exportAttributes()
+                });
+                await task;
             }
         );
 
