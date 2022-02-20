@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "target": "ESNext"
+  },
+  "include": [ "./src/**/*", "./srcKai/**/*" ],
+  "exclude": [ "node_modules" ]
+}
+
