@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import Database from "./Database.js";
+import Database from "../instances/Database.js";
 
 export default class DatabaseProvider {
   public static async initialize(): Promise<void> {
@@ -18,7 +18,7 @@ export default class DatabaseProvider {
       DatabaseProvider.instance = new DatabaseProvider(client.db(dbName));
     };
   };
-  public static getDatabaseProvider(): Database {
+  public static getDatabase(): Database {
     if (DatabaseProvider.instance) {
       return DatabaseProvider.instance.database;
     } else {
