@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "tsc && node ./dist/index.js",
+    "test": "tsc && node ./dist/srcKai/index.js",
     "start": "node ./src/index.js"
   },
   "author": "leningkoei",

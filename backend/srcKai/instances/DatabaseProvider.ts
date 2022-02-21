@@ -1,8 +1,5 @@
 import { MongoClient } from "mongodb";
-
-// type of MongoClient.db(dbName: string);
-interface Database {
-};
+import Database from "./Database.js";
 
 export default class DatabaseProvider {
   public static async initialize(): Promise<void> {

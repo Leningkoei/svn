@@ -1,10 +1,6 @@
 import cors from "cors";
 import express from "express";
-
-// type of express();
-interface Server {
-  use(middleware: (...params: any[]) => void): void;
-};
+import Server from "./Server.js";
 
 export default class ServerProvider {
   public static initialize(): void {

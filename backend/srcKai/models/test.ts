@@ -1,0 +1,2 @@
+import "./files/test.js";
+

@@ -1,0 +1,2 @@
+import "./models/test.js";
+
