@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import Server from "../instances/Server.js";
+import Server from "../Server.js";
 
 export default class ServerProvider {
   public static initialize(): void {

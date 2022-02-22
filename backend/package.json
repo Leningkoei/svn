@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "tsc && node ./dist/srcKai/index.js",
-    "start": "node ./src/index.js"
+    "start": "node ./src/index.js",
+    "test": "tsc && node ./dist/index.js"
   },
   "author": "leningkoei",
   "private": true,

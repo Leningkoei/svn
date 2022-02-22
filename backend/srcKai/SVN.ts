@@ -1,6 +1,6 @@
-import DatabaseProvider from "./providers/DatabaseProvider.js";
+import DatabaseProvider from "./instances/providers/DatabaseProvider.js";
 import Server from "./instances/Server.js";
-import ServerProvider from "./providers/ServerProvider.js";
+import ServerProvider from "./instances/providers/ServerProvider.js";
 
 export default class SVN {
   public constructor(port: number) {

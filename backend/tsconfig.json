@@ -9,7 +9,7 @@
     "sourceMap": true,
     "target": "ESNext"
   },
-  "include": [ "./src/**/*", "./srcKai/**/*" ],
+  "include": [ "./srcKai/**/*" ],
   "exclude": [ "node_modules" ]
 }
 
