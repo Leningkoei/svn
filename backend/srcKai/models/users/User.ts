@@ -3,7 +3,9 @@ import Model from "../Model.js";
 import Folder from "../files/Folder.js";
 
 interface IUser extends Model {
-  // static override
+  /**
+   * [Static] [Override]
+   */
   importFields(fields: ExportedUser): User;
 
   getPassword(): string;
@@ -24,7 +26,9 @@ export default class User implements IUser {
     this.rootFolder = rootFolder;
   };
 
-  // override
+  /**
+   * [Override]
+   */
   public exportFields(): ExportedUser {
     return {
       name: this.name,
@@ -33,15 +37,21 @@ export default class User implements IUser {
     };
   };
 
-  // override
+  /**
+   * [Override]
+   */
   public getName(): string {
     return this.name;
   };
-  // override
+  /**
+   * [Override]
+   */
   public getPassword(): string {
     return this.password;
   };
-  // override
+  /**
+   * [Override]
+   */
   public getRootFolder(): Folder {
     return this.rootFolder;
   };
@@ -49,7 +59,9 @@ export default class User implements IUser {
   private password: string = undefined;
   private rootFolder: Folder = undefined;
 
-  // override
+  /**
+   * [Override]
+   */
   private name: string = undefined;
 };
 

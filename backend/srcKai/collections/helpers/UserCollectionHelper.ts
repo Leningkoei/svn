@@ -8,15 +8,21 @@ import User         from "../../models/users/User.js";
 
 interface IUserCollectionHelper {
   // C
-  // override
-  create(user: User): Promise<void>;
+  /**
+   * [Errorable] [Override]
+   */
+  create(name: string, user: User): Promise<void>;
 
   // U
-  // override
+  /**
+   * [Override]
+   */
   read(name: string): Promise<User>;
 
   // R
-  // override
+  /**
+   * [Override]
+   */
   update(name: string, user: User): Promise<void>;
 
   // D
@@ -28,9 +34,21 @@ export default class UserCollectionHelper implements IUserCollectionHelper {
   };
 
   // C
-  // override
-  public async create(user: User): Promise<void> {
+  /**
+   * [Errorable] [Override]
+   */
+  public async create(name: string, user: User): Promise<void> {
     const collection: UserCollection = this.getCollection();
+
+    if (await this.read(name)) {
+      console.error(
+        "[Collection] [User]",
+        ` Received name which has been existed: ${name}.`
+      );
+      throw new Error(
+        "[Collection] [User] Received name which has been existed."
+      );
+    };
 
     const document: ExportedUser = user.exportFields();
 
@@ -38,7 +56,9 @@ export default class UserCollectionHelper implements IUserCollectionHelper {
   };
 
   // R
-  // override
+  /**
+   * [Override]
+   */
   public async read(name: string): Promise<User> {
     const collection: UserCollection = this.getCollection();
 
@@ -55,7 +75,9 @@ export default class UserCollectionHelper implements IUserCollectionHelper {
   };
 
   // U
-  // override
+  /**
+   * [Override]
+   */
   public async update(name: string, user: User): Promise<void> {
     const collection: UserCollection = this.getCollection();
 

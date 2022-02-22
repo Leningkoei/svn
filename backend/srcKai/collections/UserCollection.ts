@@ -4,15 +4,21 @@ import ExportedUser from "../models/users/ExportedUser.js";
 
 export default interface UserCollection extends Collection {
   // C
-  // override
+  /**
+   * [Override]
+   */
   insertOne(document: ExportedUser): Promise<{ insertedId: ObjectId }>;
 
   // R
-  // override
+  /**
+   * [Override]
+   */
   findOne(query: { name: string }, options: {}): Promise<ExportedUser>;
 
   // U
-  // override
+  /**
+   * [Override]
+   */
   updateOne(query: { name: string }, content: { $set: ExportedUser }):
     Promise<unknown>;
 };

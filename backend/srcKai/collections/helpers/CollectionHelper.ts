@@ -2,7 +2,7 @@ import Model from "../../models/Model.js";
 
 export default interface CollectionHelper {
   // C
-  create(model: Model): Promise<void>;
+  create(key: unknown, model: Model): Promise<void>;
 
   // R
   read(key: unknown): Promise<Model>;

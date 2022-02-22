@@ -1,8 +1,8 @@
 import ExportedModel from "./ExportedModel.js";
 
 export default interface Model {
-  // static
   /**
+   * [Static]
    * It should be call when model be took out from database.
    * ExportedModel => Model;
    */

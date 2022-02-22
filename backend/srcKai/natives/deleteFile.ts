@@ -1,6 +1,9 @@
 import { unlink } from "fs";
 import path from "path";
 
+/**
+ * [Errorable]
+ */
 export default (filename: string): Promise<void> => {
   return new Promise<void>(
     (resolve: () => void, reject: (error: unknown) => void): void => {
