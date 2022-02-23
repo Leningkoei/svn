@@ -39,7 +39,11 @@ export default connect(
         try {
             const res = await method({ path });
 
-            this.props.refreshRootDirectory(res.data);
+            if (res.data.result) {
+              this.props.refreshRootDirectory(res.data.content);
+            } else {
+              throw new Error(res.data.msg);
+            };
         } catch (err) {
             alert(err);
         };

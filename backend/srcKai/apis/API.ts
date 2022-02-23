@@ -1,5 +1,5 @@
-import RES from "./RES.js";
 import REQ from "./REQ.js";
+import RES from "./RES.js";
 import Middleware from "../middlewares/Middleware.js";
 import Router from "../instances/Router.js";
 import Server from "../instances/server/Server.js";
@@ -10,7 +10,7 @@ interface IAPI {
 };
 
 export default abstract class API implements IAPI {
-  public constructor(url: string) {
+  protected constructor(url: string) {
     this.server = ServerProvider.prototype.get();
 
     this.url = url;

@@ -2,9 +2,9 @@ export default interface RES {
   send(data: Data): void;
 };
 
-interface Data {
+export interface Data {
   result: boolean;
-  msg?: string;
-  content: unknown;
+  msg: string;
+  content: unknown | null;
 };
 

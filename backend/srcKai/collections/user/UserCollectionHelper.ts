@@ -81,7 +81,7 @@ export default class UserCollectionHelper implements IUserCollectionHelper {
     const collection: UserCollection =
       UserCollectionHelper.prototype.getCollection();
 
-    if (await UserCollectionHelper.prototype.read(name)) {
+    if (!(await UserCollectionHelper.prototype.read(name))) {
       // console.log(
       //   "[Collection] [User] [U]",
       //   ` Received name which not has been existed: ${name}.`
@@ -91,9 +91,10 @@ export default class UserCollectionHelper implements IUserCollectionHelper {
       );
     };
 
-    const document: ExportedUser = user.exportFields();
+    const query: { name: string } = { name };
+    const content: { $set: ExportedUser } = { $set: user.exportFields() };
 
-    await collection.insertOne(document);
+    await collection.updateOne(query, content);
   };
 
   // D

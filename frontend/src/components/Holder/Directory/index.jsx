@@ -7,7 +7,7 @@ import style from "./style.scss";
 export default class Directory extends React.Component {
      render() {
         const children = this.props.children;
-        const fold = this.props.fold;
+        const fold = this.props.isFold;
         const path = this.props.path;
         const name = this.props.name;
 
