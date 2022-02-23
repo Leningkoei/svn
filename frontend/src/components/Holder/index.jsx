@@ -28,7 +28,7 @@ export default connect(
         try {
             const res = await API.getRootDirectory();
 
-            this.props.refreshRootDirectory(res.data);
+            this.props.refreshRootDirectory(res.data.content);
         } catch (err) {
             alert(err);
         };

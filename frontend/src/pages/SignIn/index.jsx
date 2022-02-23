@@ -76,13 +76,13 @@ export default class SignIn extends React.Component {
             );
 
             if (res.data.result) {
-                const token = res.data.token;
+                const token = res.data.content;
 
                 localStorage.setItem("token", token);
 
                 this.props.history.replace("/main");
             } else {
-                this.props.history.replace("/sign-in");
+                throw new Error(res.data.msg);
             };
         } catch (err) {
             alert(err);

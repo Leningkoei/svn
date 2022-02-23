@@ -6,7 +6,7 @@
     "moduleResolution": "node",
     "noEmitOnError": true,
     "outDir": "./dist",
-    "sourceMap": true,
+    "inlineSourceMap": true,
     "target": "ESNext"
   },
   "include": [ "./srcKai/**/*" ],

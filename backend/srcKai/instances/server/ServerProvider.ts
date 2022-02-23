@@ -1,16 +1,34 @@
 import cors from "cors";
 import express from "express";
-import Server from "../Server.js";
+import Server from "./Server.js";
+import Provider from "../Provider.js";
+
+interface IServerProvider extends Provider {
+  /**
+   * [Static] [Override]
+   */
+  initialize(): void;
+  /**
+   * [Errorable] [Static] [Override]
+   */
+  get(): Server;
+};
 
 export default class ServerProvider {
-  public static initialize(): void {
+  /**
+   * [Static] [Override]
+   */
+  public initialize(): void {
     if (ServerProvider.instance) {
       console.warn("[Server] ServerProvider has been initialized!");
     } else {
       ServerProvider.instance = new ServerProvider();
     };
   };
-  public static getServer(): Server {
+  /**
+   * [Errorabel] [Static] [Override]
+   */
+  public get(): Server {
     if (ServerProvider.instance) {
       return ServerProvider.instance.server;
     } else {

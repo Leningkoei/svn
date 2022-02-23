@@ -1,23 +1,38 @@
 import JWT from "jsonwebtoken";
-import REQ from "../REQ.js";
-import RES from "../RES.js";
-import Token from "../Token.js";
-import User from "../../models/users/User.js";
+import Token from "./Token.js";
+import REQ from "./REQAfterTokenMiddleware.js";
+import Provider from "../Provider.js";
+import RES from "../../apis/RES.js";
 import UserCollectionHelper
-  from "../../collections/helpers/UserCollectionHelper.js";
+  from "../../collections/user/UserCollectionHelper.js";
+import User from "../../models/users/User.js";
 
-export default class TokenProvider {
-  public static initialize(optionStr: string): void {
+interface ITokenProvider extends Provider {
+  /**
+   * [Static] [Override]
+   */
+  initialize(option: { optionStr: string }): void;
+  /**
+   * [Static] [Override]
+   */
+  get(): Token;
+};
+
+export default class TokenProvider implements ITokenProvider {
+  /**
+   * [Static] [Override]
+   */
+  public initialize(option: { optionStr: string }): void {
     if (TokenProvider.instance) {
       console.warn("[Token] TokenProvider has been initialized!");
     } else {
-      TokenProvider.instance = new TokenProvider(optionStr);
+      TokenProvider.instance = new TokenProvider(option.optionStr);
     };
   };
   /**
-   * [Errorable]
+   * [Errorable] [Static] [Override]
    */
-  public static getToken(): Token {
+  public get(): Token {
     if (TokenProvider.instance) {
       return TokenProvider.instance.token;
     } else {
@@ -39,12 +54,12 @@ class MyToken implements Token {
     this.optionStr = optionStr;
   };
 
-  public getToken(name: string): string {
+  public create(name: string): string {
     return JWT.sign({ name }, this.optionStr);
   };
   public async getUserByToken(token: string): Promise<User> {
-    const name: string = JWT.verify(token, this.optionStr);
-    const user: User = await (new UserCollectionHelper()).read(name);
+    const name: string = JWT.verify(token, this.optionStr).name;
+    const user: User = await UserCollectionHelper.prototype.read(name);
 
     return user;
   };
@@ -68,7 +83,7 @@ class MyToken implements Token {
 
       next();
     } else {
-      res.send({ result: false, msg: "Token ???" });
+      res.send({ result: false, msg: "Wrong Token", content: null });
     };
   };
 

@@ -38,7 +38,7 @@ export default class SignIn {
                 const id = user.getId();
                 const token = Token.create(id);
 
-                res.send({ result: true, token });
+                res.send({ result: true, content: token });
             }
         );
 

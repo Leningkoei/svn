@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
-import Collection from "./Collection.js";
-import ExportedUser from "../models/users/ExportedUser.js";
+import Collection from "../Collection.js";
+import ExportedUser from "../../models/users/ExportedUser.js";
 
 export default interface UserCollection extends Collection {
   // C

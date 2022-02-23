@@ -1,10 +1,10 @@
 export default interface RES {
-  send(response: Response): void;
+  send(data: Data): void;
 };
 
-interface Response {
+interface Data {
   result: boolean;
   msg?: string;
-  data?: unknown;
+  content: unknown;
 };
 

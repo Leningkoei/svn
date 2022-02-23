@@ -1,4 +1,4 @@
-import Collection from "../collections/Collection.js";
+import Collection from "../../collections/Collection.js";
 
 /**
  * type of MongoClient.db(dbName: string);
