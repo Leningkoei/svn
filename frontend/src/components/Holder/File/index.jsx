@@ -5,7 +5,7 @@ import style from "./style.scss";
 
 export default class File extends React.Component {
     render() {
-        const originalname = this.props.originalname;
+        const originalname = this.props.name;
         const path = this.props.path;
 
         const isHover = this.state.isHover;

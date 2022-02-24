@@ -1,6 +1,5 @@
 import API from "./API.js";
 import REQ from "./REQ.js";
-import RES from "./RES.js";
 import UserCollectionHelper from "../collections/user/UserCollectionHelper.js";
 import Router from "../instances/Router.js";
 import TokenProvider from "../instances/token/TokenProvider.js";
@@ -19,48 +18,34 @@ export default class SignIn extends API {
   /**
    * [Override]
    */
-  protected middlewares: Router[] = [ formData ];
-  /**
-   * [Override]
-   */
   protected name: string = "sign in";
 
   /**
    * [Override]
    */
-  protected async responser(req: MyREQ, res: RES): Promise<void> {
+  protected getMiddlewares(): Router[] {
+    return [ formData ];
+  };
+  /**
+   * [Override]
+   */
+  protected async getContent(req: MyREQ): Promise<string> {
     const name: string = req.query.name;
     const user: User = await UserCollectionHelper.prototype.read(name);
 
     if (!user) {
-      res.send({
-        result: false,
-        msg: "Unknown Username",
-        content: null
-      });
-
-      return;
+      throw new Error("Unknown User");
     };
 
     const password: string = req.query.password;
 
     if (user.getPassword() !== password) {
-      res.send({
-        result: false,
-        msg: "Wrong Password ",
-        content: null
-      });
-
-      return;
+      throw new Error("Wrong Password");
     };
 
     const token: string = TokenProvider.prototype.get().create(name);
 
-    res.send({
-      result: true,
-      msg: "success",
-      content: token
-    });
+    return token;
   };
 };
 

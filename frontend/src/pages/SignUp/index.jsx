@@ -76,7 +76,7 @@ export default class SignUp extends React.Component {
             );
 
             if (res.data.result) {
-                const token = res.data.token;
+                const token = res.data.content;
 
                 localStorage.setItem("token", token);
 

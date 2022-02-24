@@ -54,7 +54,7 @@ export default connect(
             const res = await method(formData);
 
             if (res.data.result) {
-                this.props.refreshRootDirectory(res.data.rootDirectory);
+                this.props.refreshRootDirectory(res.data.content);
             } else {
                 throw new Error(res.data.msg);
             };

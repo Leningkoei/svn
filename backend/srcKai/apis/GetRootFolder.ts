@@ -1,9 +1,10 @@
 import API from "./API.js";
 import REQ from "../instances/token/REQAfterTokenMiddleware.js";
-import RES from "./RES.js";
 import UserCollectionHelper from "../collections/user/UserCollectionHelper.js";
 import TokenProvider from "../instances/token/TokenProvider.js";
 import Middleware from "../middlewares/Middleware.js";
+import ExportedFolder from "../models/files/ExportedFolder.js";
+import Folder from "../models/files/Folder.js";
 import User from "../models/users/User.js";
 
 export default class GetRootFolder extends API {
@@ -18,25 +19,21 @@ export default class GetRootFolder extends API {
   /**
    * [Override]
    */
-  protected middlewares: Middleware[] =
-    [ TokenProvider.prototype.get().getMiddleware() ];
-
-  /**
-   * [Override]
-   */
   protected name: string = "get root folder";
 
   /**
    * [Override]
    */
-  protected async responser(req: REQ, res: RES): Promise<void> {
+  protected getMiddlewares(): Middleware[] {
+    return [ TokenProvider.prototype.get().getMiddleware() ];
+  };
+  /**
+   * [Override]
+   */
+  protected async getContent(req: REQ): Promise<ExportedFolder> {
     const user: User = req.user;
 
-    res.send({
-      result: true,
-      msg: "success",
-      content: user.getRootFolder().exportFields()
-    });
+    return user.getRootFolder().exportFields();
   };
 };
 

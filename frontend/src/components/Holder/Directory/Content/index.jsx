@@ -31,7 +31,7 @@ export default class Content extends React.Component {
 
     map = {
         folder: child => <Directory key={child.name} { ...child } />,
-        file: child => <File key={child.originalname} { ...child } />
+        "common file": child => <File key={child.name} { ...child } />
     };
 };
 
