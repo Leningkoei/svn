@@ -1,9 +1,24 @@
-import REQ from "./REQ.js";
-import RES, { Data } from "./RES.js";
 import Middleware from "../middlewares/Middleware.js";
 import Router from "../instances/Router.js";
 import Server from "../instances/server/Server.js";
 import ServerProvider from "../instances/server/ServerProvider.js";
+
+export interface REQ {
+  headers: Header;
+};
+interface Header {
+  authorization: string;
+};
+
+export interface RES {
+  send(data: Data): void;
+  download(filepath: string, name: string): void;
+};
+interface Data {
+  result: boolean;
+  msg: string;
+  content: unknown | null;
+};
 
 interface IAPI {
   setListener(): void;
@@ -32,25 +47,32 @@ export default abstract class API implements IAPI {
   /**
    * [Errorabel]
    */
-  protected abstract getContent(req: REQ): unknown;
+  protected abstract getContent(req: unknown): unknown;
   protected abstract getMiddlewares(): (Middleware | Router)[];
 
+  protected handleSuccess(res: RES, content: unknown): void {
+    res.send({
+      result: true,
+      msg: "success",
+      content
+    });
+  };
+  protected handleError(res: RES, error: unknown): void {
+    res.send({
+      result: false,
+      msg: error.toString().substring(6),
+      content: null
+    });
+  };
+
   private getResponser(): Middleware {
-    return async (req: REQ, res: RES): Promise<void> => {
+    return async (req: unknown, res: RES): Promise<void> => {
       try {
         const content: unknown = await this.getContent(req);
 
-        res.send({
-          result: true,
-          msg: "success",
-          content
-        });
+        this.handleSuccess(res, content);
       } catch (error: unknown) {
-        res.send({
-          result: false,
-          msg: error.toString().substring(6),
-          content: null
-        });
+        this.handleError(res, error);
       };
     };
   };

@@ -1,6 +1,9 @@
-import REQ from "../../apis/REQ.js";
-import RES from "../../apis/RES.js";
+import { REQ as PREQ, RES } from "../../apis/API.js";
 import User from "../../models/users/User.js";
+
+export interface REQ extends PREQ {
+  user: User;
+};
 
 export default interface Token {
   create(name: string): string;

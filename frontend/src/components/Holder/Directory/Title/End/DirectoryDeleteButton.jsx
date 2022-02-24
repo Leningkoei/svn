@@ -34,11 +34,18 @@ export default connect(
 
     deleteDirectory = async () => {
         const method = this.props.API.deleteDirectory;
-
         const path = this.props.path;
-
         const res = await method({ path });
-        this.props.refreshRootDirectory(res.data);
+
+        try {
+          if (res.data.result) {
+            this.props.refreshRootDirectory(res.data.content);
+          } else {
+            throw new Error(res.data.msg);
+          };
+        } catch (error) {
+          alert(error);
+        };
     };
 });
 

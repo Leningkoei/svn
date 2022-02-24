@@ -1,8 +1,7 @@
 import JWT from "jsonwebtoken";
-import Token from "./Token.js";
-import REQ from "./REQAfterTokenMiddleware.js";
+import Token, { REQ } from "./Token.js";
 import Provider from "../Provider.js";
-import RES from "../../apis/RES.js";
+import { RES } from "../../apis/API.js";
 import UserCollectionHelper
   from "../../collections/user/UserCollectionHelper.js";
 import User from "../../models/users/User.js";
@@ -57,9 +56,9 @@ class MyToken implements Token {
   public create(name: string): string {
     return JWT.sign({ name }, this.optionStr);
   };
-  public async getUserByToken(token: string): Promise<User> {
+  public async getUserByToken(token: string): Promise<User | null> {
     const name: string = JWT.verify(token, this.optionStr).name;
-    const user: User = await UserCollectionHelper.prototype.read(name);
+    const user: User | null = await UserCollectionHelper.prototype.read(name);
 
     return user;
   };
@@ -76,13 +75,14 @@ class MyToken implements Token {
     req: REQ, res: RES, next: () => void
   ): Promise<void> => {
     const token: string = req.headers.authorization.split(" ")[1];
-    const user: User = await this.getUserByToken(token);
+    const user: User | null = await this.getUserByToken(token);
 
     if (user) {
       req.user = user;
 
       next();
     } else {
+      // throw new Error("Wrong Token");
       res.send({ result: false, msg: "Wrong Token", content: null });
     };
   };

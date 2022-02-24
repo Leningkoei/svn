@@ -1,10 +1,21 @@
 import API from "./API.js";
-import REQ from "./REQ.js";
 import UserCollectionHelper from "../collections/user/UserCollectionHelper.js";
 import Router from "../instances/Router.js";
+import { REQ as PREQ_A } from "../instances/token/Token.js";
 import TokenProvider from "../instances/token/TokenProvider.js";
-import formData from "../middlewares/formData.js";
+import formData, { REQ as PREQ_B } from "../middlewares/formData.js";
 import User from "../models/users/User.js";
+
+interface REQ extends PREQ_A, PREQ_B {
+  /**
+   * [Override]
+   */
+  query: Query;
+};
+interface Query {
+  name: string;
+  password: string;
+};
 
 export default class SignIn extends API {
   public constructor(url: string) {
@@ -23,13 +34,7 @@ export default class SignIn extends API {
   /**
    * [Override]
    */
-  protected getMiddlewares(): Router[] {
-    return [ formData ];
-  };
-  /**
-   * [Override]
-   */
-  protected async getContent(req: MyREQ): Promise<string> {
+  protected async getContent(req: REQ): Promise<string> {
     const name: string = req.query.name;
     const user: User = await UserCollectionHelper.prototype.read(name);
 
@@ -47,17 +52,11 @@ export default class SignIn extends API {
 
     return token;
   };
-};
-
-interface MyREQ extends REQ {
   /**
    * [Override]
    */
-  query: Query;
-};
-
-interface Query {
-  name: string;
-  password: string;
+  protected getMiddlewares(): Router[] {
+    return [ formData ];
+  };
 };
 

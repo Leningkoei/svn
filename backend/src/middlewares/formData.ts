@@ -1,7 +1,11 @@
 import express from "express";
 import composeMiddlewares from "./composeMiddlewares.js";
-import REQ from "../apis/REQ.js";
-import RES from "../apis/RES.js";
+import { REQ as PREQ, RES } from "../apis/API.js";
+
+export interface REQ extends PREQ {
+  query: unknown;
+  body: unknown;
+};
 
 /**
  * A middleware to handle form data.
