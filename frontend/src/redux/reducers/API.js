@@ -14,12 +14,17 @@ const initState = class API {
         };
     };
 
+    static changeFileText = params => axios.post(
+      API.#baseUrl + "/change-file-text",
+      params,
+      { headers: { ...API.#getAuthorization() } }
+    );
     static changeFold = params => axios.get(
-        API.#baseUrl + "/change-fold",
-        {
-            headers: { ...API.#getAuthorization() },
-            params
-        }
+      API.#baseUrl + "/change-fold",
+      {
+        headers: { ...API.#getAuthorization() },
+        params
+      }
     );
     static createDirectory = params => axios.get(
         API.#baseUrl + "/create-directory",

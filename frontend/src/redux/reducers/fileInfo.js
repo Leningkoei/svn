@@ -1,5 +1,5 @@
 const initState = {
-  name: "Hello"
+  name: "No File Has Been Choosen"
 };
 
 export default (preState = initState, action) => {

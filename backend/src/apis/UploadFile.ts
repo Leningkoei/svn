@@ -65,6 +65,10 @@ export default class UploadFile extends API {
    * [Override]
    */
   protected async getContent(req: NREQ): Promise<ExportedFolder> {
+    if (!req.file) {
+      throw new Error("This Name Has Been Used!");
+    };
+
     const user: User = req.user;
     const root: Folder = req.rootFolder;
     const target: CommonFile = req.targetCommonFile;
@@ -89,7 +93,11 @@ export default class UploadFile extends API {
       const parent: Folder = <Folder> root.find(parentPath, Folder);
 
       try {
-        parent.add(commonFile);
+        try {
+          parent.add(commonFile);
+        } catch (error: unknown) {
+          return callback(null, false);
+        };
         req.rootFolder = root;
         req.targetCommonFile = commonFile;
 

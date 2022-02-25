@@ -1,3 +1,4 @@
+import ChangeFileText from "./ChangeFileText.js";
 import ChangeFold     from "./ChangeFold.js";
 import CreateFolder   from "./CreateFolder.js";
 import DeleteFile     from "./DeleteFile.js";
@@ -11,6 +12,8 @@ import SignUp         from "./SignUp.js";
 import UploadFile     from "./UploadFile.js";
 
 export default function setListeners(): void {
+  const changeFileText: ChangeFileText =
+    new ChangeFileText("/server/change-file-text", "files");
   const changeFold: ChangeFold =
     new ChangeFold("/server/change-fold");
   const createFolder: CreateFolder =
@@ -34,6 +37,7 @@ export default function setListeners(): void {
   const uploadFile: UploadFile =
     new UploadFile("/server/upload-file", "file", "./files");
 
+  changeFileText.setListener();
   changeFold.setListener();
   createFolder.setListener();
   deleteFile.setListener();
