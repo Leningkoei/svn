@@ -1,12 +1,14 @@
-import ChangeFold    from "./ChangeFold.js";
-import CreateFolder  from "./CreateFolder.js";
-import DeleteFile    from "./DeleteFile.js";
-import DeleteFolder  from "./DeleteFolder.js";
-import DownloadFile  from "./DownloadFile.js";
-import GetRootFolder from "./GetRootFolder.js";
-import SignIn        from "./SignIn.js";
-import SignUp        from "./SignUp.js";
-import UploadFile    from "./UploadFile.js";
+import ChangeFold     from "./ChangeFold.js";
+import CreateFolder   from "./CreateFolder.js";
+import DeleteFile     from "./DeleteFile.js";
+import DeleteFolder   from "./DeleteFolder.js";
+import DownloadFile   from "./DownloadFile.js";
+import GetImg         from "./GetImg.js";
+import GetFileContent from "./GetFileContent.js";
+import GetRootFolder  from "./GetRootFolder.js";
+import SignIn         from "./SignIn.js";
+import SignUp         from "./SignUp.js";
+import UploadFile     from "./UploadFile.js";
 
 export default function setListeners(): void {
   const changeFold: ChangeFold =
@@ -18,7 +20,11 @@ export default function setListeners(): void {
   const deleteFolder: DeleteFolder =
     new DeleteFolder("/server/delete-directory");
   const downloadFile: DownloadFile =
-    new DownloadFile("/server/download-file");
+    new DownloadFile("/server/download-file", "files");
+  const getImg: GetImg =
+    new GetImg("/server/get-img", "files");
+  const getFileContent: GetFileContent =
+    new GetFileContent("/server/get-file-content", "files");
   const getRootFolder: GetRootFolder =
     new GetRootFolder("/server/get-root-directory");
   const signIn: SignIn =
@@ -33,6 +39,8 @@ export default function setListeners(): void {
   deleteFile.setListener();
   deleteFolder.setListener();
   downloadFile.setListener();
+  getImg.setListener();
+  getFileContent.setListener();
   getRootFolder.setListener();
   signIn.setListener();
   signUp.setListener();

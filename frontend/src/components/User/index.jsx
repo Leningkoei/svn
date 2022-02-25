@@ -8,8 +8,8 @@ export default connect(
 )(class User extends React.Component {
     render() {
         return (
-            <div className={style["user"]}>
-                <h1>Hello</h1>
+            <div className={style.user}>
+                <h2>Hello</h2>
             </div>
         );
     };

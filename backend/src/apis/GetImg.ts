@@ -11,12 +11,11 @@ interface REQ extends PREQ {
   query: Query;
 };
 interface Query {
-  originalname: string;
   path: string[];
   token: string;
 };
 
-export default class DownloadFile extends API {
+export default class GetImg extends API {
   public constructor(url: string, destination: string = "files") {
     super(url);
 
@@ -24,12 +23,12 @@ export default class DownloadFile extends API {
   };
 
   protected method: "get" = "get";
-  protected name: string = "download file";
+  protected name: string = "get img";
 
   protected async getContent(req: REQ): Promise<Content> {
     const tokenData: string = req.query.token;
     const token: Token = TokenProvider.prototype.get();
-    const user: User | null = await token.getUserByToken(tokenData);
+    const user: User = await token.getUserByToken(tokenData);
 
     if (!user) {
       throw new Error("Wrong Token");
@@ -40,27 +39,22 @@ export default class DownloadFile extends API {
     const target: CommonFile = <CommonFile> root.find(path, CommonFile);
     const filename: string = target.getFilename();
     const filepath: string = Path.resolve(this.destination, filename);
-    const name: string = req.query.originalname;
 
-    return {
-      filepath,
-      name
-    };
+    return { filepath };
   };
   protected getMiddlewares(): Middleware[] {
     return [];
   };
   protected handleSuccess(res: RES, content: Content): void {
-    const { filepath, name } = content;
+    const filepath: string = content.filepath;
 
-    res.download(filepath, name);
+    res.sendFile(filepath);
   };
 
-  private destination: string = undefined;
+  private destination = undefined;
 };
 
 interface Content {
   filepath: string;
-  name: string;
 };
 

@@ -13,6 +13,7 @@ interface Header {
 export interface RES {
   send(data: Data): void;
   download(filepath: string, name: string): void;
+  sendFile(filepath: string): void;
 };
 interface Data {
   result: boolean;

@@ -51,6 +51,22 @@ const initState = class API {
 
         location.href = url;
     };
+    static getFileContent = params => axios.get(
+      API.#baseUrl + "/get-file-content",
+      {
+        headers: { ...API.#getAuthorization() },
+        params
+      }
+    );
+    static getImg = path => {
+      const token = localStorage.getItem("token");
+
+      let url = API.#baseUrl + "/get-img";
+      url += `?token=${token}`;
+      path.forEach(name => url += `&path[]=${name}`);
+
+      return url;
+    };
     static getRootDirectory = () => axios.get(
         API.#baseUrl + "/get-root-directory",
         { headers: { ...API.#getAuthorization() } }

@@ -1,0 +1,22 @@
+.content {
+  height: 100%;
+  width: 100%;
+
+  border-width: 1px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  border-color: red;
+  border-style: solid;
+
+  textarea {
+    height: 100%;
+    width: 100%;
+
+    resize: none;
+  }
+}
+

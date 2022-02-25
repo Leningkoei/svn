@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import React from "react";
+import Content from "../../components/Content";
 import Holder from "../../components/Holder";
 import User from "../../components/User";
 import style from "./style.scss";
@@ -42,6 +43,7 @@ export default class Main extends React.Component {
                         style={{ width: `${rightWidth}` }}
                     >
                         <User />
+                        <Content />
                     </div>
                 </div>
                 <div className={style["footer"]}>
@@ -72,6 +74,7 @@ export default class Main extends React.Component {
     };
 
     componentDidMount() {
+      if (localStorage.getItem("token")) {
         const width = this.width;
         const storagedLeftWidthStr = localStorage.getItem("leftWidth");
         const leftWidth =
@@ -85,6 +88,9 @@ export default class Main extends React.Component {
             leftWidth: `${leftWidth}px`,
             rightWidth: `${rightWidth}px`
         });
+      } else {
+        this.props.history.replace("/sign-in");
+      };
     };
 };
 
