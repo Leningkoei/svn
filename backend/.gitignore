@@ -3,5 +3,5 @@ node_modules
 dist
 package-lock.json
 demo
-files
+/files
 
