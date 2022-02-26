@@ -2,13 +2,9 @@
     height: 100%;
     width: 100%;
 
-    // border-width: 1px;
-
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
-
-    // border-color: red;
-    // border-style: solid;
+    align-items: flex-start;
 }
 

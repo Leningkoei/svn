@@ -28,7 +28,7 @@ export default class DeleteFolder extends API {
     const path: string[] = req.query.path;
     const target: Folder = <Folder> root.find(path, Folder);
 
-    target.delete();
+    await target.delete();
     await UserCollectionHelper.prototype.update(user.getName(), user);
 
     return root.exportFields();

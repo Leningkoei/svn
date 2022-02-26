@@ -76,6 +76,10 @@ const initState = class API {
         API.#baseUrl + "/get-root-directory",
         { headers: { ...API.#getAuthorization() } }
     );
+    static getUsername = () => axios.get(
+      API.#baseUrl + "/get-user-name",
+      { headers: { ...API.#getAuthorization() } }
+    );
     static uploadFile = formData => axios.post(
         API.#baseUrl + "/upload-file",
         formData,

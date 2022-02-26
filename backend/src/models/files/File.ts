@@ -5,7 +5,7 @@ export default interface File extends Model {
   // static override
   importFields(fields: ExportedFile): File;
 
-  delete(): void;
+  delete(): Promise<void>;
 
   getPath(): string[];
   getType(): string;

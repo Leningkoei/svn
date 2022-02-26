@@ -13,12 +13,13 @@
   // border-style: solid;
 
   .name {
-    height: auto;
-    width: auto;
+    border-width: 1px;
+    padding: 0 32px;
 
-    margin: 0 32px;
-
-    align-content: center;
+    background-color: aliceblue;
+    border-color: aqua;
+    border-style: solid;
+    line-height: 22px;
     text-align: center;
     white-space: nowrap;
   }

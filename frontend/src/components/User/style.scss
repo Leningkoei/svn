@@ -2,9 +2,31 @@
     min-height: 64px;
     width: 100%;
 
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+
     // border-width: 1px;
 
     // border-color: red;
     // border-style: solid;
+
+    .username {
+      height: 100%;
+      width: 100%;
+
+      border-width: 1px;
+
+      background-color: aliceblue;
+      border-color: aqua;
+      border-style: solid;
+      line-height: 62px;
+      text-align: center;
+    }
+    .user-avatar {
+      height: 64px;
+      width: 64px;
+    }
 }
 

@@ -2,6 +2,7 @@ import React from "react";
 import Bar from "./Bar";
 import { connect } from "react-redux";
 import Img from "./Img";
+import Video from "./Video";
 import Text from "./Text";
 import style from "./style.scss";
 
@@ -19,12 +20,18 @@ export default connect(
 
     return (
       <div className={style.content}>
-        <Bar name={name} isEdit={isEdit} noticeSave={this.noticeSave} />
+        <Bar
+          name={name}
+          isEdit={isEdit}
+          noticeChangeLang={this.noticeChangeLang}
+          noticeSave={this.noticeSave}
+        />
         {content}
       </div>
     );
   };
 
+  noticeChangeLang = lang => this.setState({ lang });
   noticeIsEdit = isEdit => this.setState({ isEdit });
   noticeTextChange = text => this.setState({ text });
   noticeSave = async () => {
@@ -42,6 +49,7 @@ export default connect(
       this.props.refreshRootDirectory(res.data.content);
     };
   };
+
   getTextComponent = (content, disabled = false) => (<Text
     key={new Date()}
     disabled={disabled}
@@ -76,6 +84,14 @@ export default connect(
         return;
       };
 
+      if (this.videoType.includes(extension)) {
+        const content = <Video src={API.getImg(fileInfo.path)} />;
+
+        this.setState({ content });
+
+        return;
+      };
+
       const res = await API.getFileContent({ path: fileInfo.path })
       const textComponent = this.getTextComponent(res.data);
 
@@ -83,6 +99,7 @@ export default connect(
     };
   };
 
-  imgType = [ "ico" ];
+  imgType = [ "jpg", "png", "ico" ];
+  videoType = [ "mp4", "webm" ];
 });
 

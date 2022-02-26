@@ -7,6 +7,7 @@ import DownloadFile   from "./DownloadFile.js";
 import GetImg         from "./GetImg.js";
 import GetFileContent from "./GetFileContent.js";
 import GetRootFolder  from "./GetRootFolder.js";
+import GetUsername    from "./GetUsername.js";
 import SignIn         from "./SignIn.js";
 import SignUp         from "./SignUp.js";
 import UploadFile     from "./UploadFile.js";
@@ -30,6 +31,8 @@ export default function setListeners(): void {
     new GetFileContent("/server/get-file-content", "files");
   const getRootFolder: GetRootFolder =
     new GetRootFolder("/server/get-root-directory");
+  const getUsername: GetUsername =
+    new GetUsername("/server/get-user-name");
   const signIn: SignIn =
     new SignIn("/server/sign-in");
   const signUp: SignUp =
@@ -46,6 +49,7 @@ export default function setListeners(): void {
   getImg.setListener();
   getFileContent.setListener();
   getRootFolder.setListener();
+  getUsername.setListener();
   signIn.setListener();
   signUp.setListener();
   uploadFile.setListener();

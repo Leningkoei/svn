@@ -29,7 +29,7 @@ export default class DeleteFile extends API {
     const root: Folder = user.getRootFolder();
     const target: CommonFile = <CommonFile> root.find(path, CommonFile);
 
-    target.delete();
+    await target.delete();
     await UserCollectionHelper.prototype.update(user.getName(), user);
 
     return root.exportFields();

@@ -22,7 +22,7 @@ export default class Main extends React.Component {
                         className={style["left"]}
                         style={{ width: `${leftWidth}` }}
                     >
-                        <Holder />
+                        <Holder history={this.props.history} />
                     </div>
                     <div
                       className={style["hr"]}

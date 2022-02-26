@@ -12,7 +12,7 @@ export default class Text extends React.Component {
         <Editor
           className={style.text}
           height={this.state.heightOfEditor}
-          onChange={this.onChange}
+          onChange={disabled ? undefined : this.onChange}
           defaultValue={content}
         />
     );

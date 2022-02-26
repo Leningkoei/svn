@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Directory from "./Directory";
+import File from "./File";
 import style from "./style.scss";
 
 export default connect(
@@ -35,6 +36,7 @@ export default connect(
             };
         } catch (err) {
             alert(err);
+            this.props.history.replace("/sign-in");
         };
     };
 });
