@@ -1,7 +1,7 @@
-import { Input } from "antd";
 import React from "react";
 import Bar from "./Bar";
 import { connect } from "react-redux";
+import Img from "./Img";
 import Text from "./Text";
 import style from "./style.scss";
 
@@ -20,9 +20,7 @@ export default connect(
     return (
       <div className={style.content}>
         <Bar name={name} isEdit={isEdit} noticeSave={this.noticeSave} />
-        <div className={style.container}>
-          {content}
-        </div>
+        {content}
       </div>
     );
   };
@@ -71,7 +69,7 @@ export default connect(
       const extension = fileInfo.name.split(".").pop();
 
       if (this.imgType.includes(extension)) {
-        const content = <img src={API.getImg(fileInfo.path)} />;
+        const content = <Img src={API.getImg(fileInfo.path)} />;
 
         this.setState({ content });
 

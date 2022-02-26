@@ -1,3 +1,4 @@
+import Editor from "@monaco-editor/react";
 import React from "react";
 import { Input } from "antd";
 import style from "./style.scss";
@@ -8,22 +9,28 @@ export default class Text extends React.Component {
     const disabled = this.props.disabled;
 
     return (
-      <div className={style.text}>
-        <Input.TextArea
-          disabled={disabled}
+        <Editor
+          className={style.text}
+          height={this.state.heightOfEditor}
           onChange={this.onChange}
-          onBlur={this.onBlur}
           defaultValue={content}
         />
-      </div>
     );
   };
 
-  onChange = event => {
-    this.props.noticeIsEdit(event.target.value !== this.props.content);
+  onChange = value => {
+    this.props.noticeIsEdit(value !== this.props.content);
+    this.props.noticeTextChange(value);
   };
-  onBlur = event => {
-    this.props.noticeTextChange(event.target.value);
+
+  height = innerHeight;
+
+  state = {
+    heightOfEditor: "88vh"
+  };
+
+  componentDidMount = () => {
+    this.setState({ heightOfEditor: `${this.height - 104}px` });
   };
 };
 

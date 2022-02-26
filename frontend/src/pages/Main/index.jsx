@@ -12,7 +12,11 @@ export default class Main extends React.Component {
         const isResizing = this.state.isResizing;
 
         return (
-            <div className={style["main"]}>
+            <div
+              id="main"
+              className={style["main"]}
+              onMouseUp={this.handleMouseUp}
+            >
                 <div className={style["content"]}>
                     <div
                         className={style["left"]}
@@ -21,23 +25,12 @@ export default class Main extends React.Component {
                         <Holder />
                     </div>
                     <div
-                        className={style["middle"]}
-                        onMouseDown={() => this.setState({ isResizing: true })}
-                        onMouseMove={this.resize}
-                        onMouseUp={() => {
-                            this.setState({ isResizing: false });
-                            localStorage.setItem("leftWidth", leftWidth);
-                        }}
-                        onMouseLeave={() => {
-                            this.setState({ isResizing: false });
-                            localStorage.setItem("leftWidth", leftWidth);
-                        }}
-                    >
-                        <div
-                            className={style["hr"]}
-                            style={{ borderColor: isResizing ? "orange" : "blue" }}
-                        ></div>
-                    </div>
+                      className={style["hr"]}
+                      style={{
+                        backgroundColor: isResizing ? "orange" : "blue"
+                      }}
+                      onMouseDown={event => this.setState({ isResizing: true })}
+                    ></div>
                     <div
                         className={style["right"]}
                         style={{ width: `${rightWidth}` }}
@@ -60,17 +53,15 @@ export default class Main extends React.Component {
 
     width = innerWidth;
 
-    resize = event => {
-        if (!this.state.isResizing) { return; };
-
-        const width = this.width;
-        const leftWidth = event.clientX;
-        const rightWidth = width - leftWidth;
-
+    handleMouseUp = event => {
+      if (this.state.isResizing) {
         this.setState({
-            leftWidth: `${leftWidth}px`,
-            rightWidth: `${rightWidth}px`
+          isResizing: false,
+          leftWidth:`${event.clientX}px`,
+          rightWidth: `${this.width - event.clientX}px`
         });
+        localStorage.setItem("leftWidth", `${event.clientX}px`);
+      };
     };
 
     componentDidMount() {
