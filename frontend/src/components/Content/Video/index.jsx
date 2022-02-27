@@ -10,8 +10,7 @@ export default class Video extends React.Component {
         <video
           src={this.props.src}
           controls={true}
-           style={{ maxHeight: `${maxHeight}px` }}
-          width="100%"
+          style={{ maxHeight: `${maxHeight}px`, maxWidth: "100%" }}
         />
       </div>
     );

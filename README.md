@@ -4,7 +4,7 @@
 
 - 本README使用本项目的在线编辑功能完成(没有预览功能), 保存于测试账号 lening/admin;
 
-- <img src="./.github/imgs/sample.jpg />
+- <img src="./.github/imgs/sample.jpg" />
 
 - 全程使用 purl vim(没有添加脚本), 前半程直接windows, 后半程使用 wsl + tmux;
 
