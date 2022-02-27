@@ -80,13 +80,16 @@ const initState = class API {
       API.#baseUrl + "/get-user-name",
       { headers: { ...API.#getAuthorization() } }
     );
-    static uploadFile = formData => axios.post(
+    static uploadFile = (formData, onUploadProgress) => axios.post(
         API.#baseUrl + "/upload-file",
         formData,
-        { headers: {
+        {
+          headers: {
             ...API.#getAuthorization(),
             "Content-Type": "multipart/form-data"
-        } }
+          },
+          onUploadProgress
+        }
     );
 };
 

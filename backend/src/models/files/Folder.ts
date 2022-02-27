@@ -14,6 +14,8 @@ interface IFolder extends File {
    */
   find(path: string[], type: typeof CommonFile | typeof Folder): File;
 
+  isRepetitiveName(file: File): boolean;
+
   getChildren(): File[];
   getIsFold(): boolean;
 
@@ -83,6 +85,13 @@ export default class Folder implements IFolder {
     const result: File = currentFolder.getChild(path[path.length - 1], type);
 
     return result? result: this;
+  };
+
+  public isRepetitiveName(file: File): boolean {
+    return this.children.filter((child: File) =>
+      (child.getName() === file.getName()) &&
+      (child.getType() === file.getType())
+    ).length !== 0;
   };
 
   public getChildren(): File[] {
@@ -179,12 +188,6 @@ export default class Folder implements IFolder {
           return a.getName() < b.getName() ? -1 : 1;
       };
     });
-  };
-  private isRepetitiveName(file: File): boolean {
-    return this.children.filter((child: File) =>
-      (child.getName() === file.getName()) &&
-      (child.getType() === file.getType())
-    ).length !== 0;
   };
 
   /**

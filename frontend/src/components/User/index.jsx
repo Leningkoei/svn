@@ -25,6 +25,7 @@ export default connect(
                 type="primary"
                 block={true}
                 style={{ height: "100%" }}
+                onClick={this.onClickSignOut}
               >Sign Out</Button>
             </div>
         );
@@ -32,6 +33,11 @@ export default connect(
 
     state = {
       name: ""
+    };
+
+    onClickSignOut = () => {
+      localStorage.removeItem("token");
+      this.props.history.replace("/sign-in");
     };
 
     componentDidMount = async () => {

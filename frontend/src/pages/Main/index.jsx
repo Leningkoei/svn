@@ -35,7 +35,7 @@ export default class Main extends React.Component {
                         className={style["right"]}
                         style={{ width: `${rightWidth}` }}
                     >
-                        <User />
+                        <User history={this.props.history} />
                         <Content />
                     </div>
                 </div>

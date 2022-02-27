@@ -1,12 +1,17 @@
 import Editor from "@monaco-editor/react";
 import React from "react";
+import { connect } from "react-redux";
 import { Input } from "antd";
 import style from "./style.scss";
 
-export default class Text extends React.Component {
+export default connect(
+  state => ({ lang: state.lang }),
+  {}
+)(class Text extends React.Component {
   render() {
     const content = this.props.content;
     const disabled = this.props.disabled;
+    const lang = this.props.lang;
 
     return (
         <Editor
@@ -14,6 +19,7 @@ export default class Text extends React.Component {
           height={this.state.heightOfEditor}
           onChange={disabled ? undefined : this.onChange}
           defaultValue={content}
+          language={lang}
         />
     );
   };
@@ -32,5 +38,5 @@ export default class Text extends React.Component {
   componentDidMount = () => {
     this.setState({ heightOfEditor: `${this.height - 104}px` });
   };
-};
+});
 

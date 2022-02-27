@@ -14,7 +14,7 @@ import User from "../models/users/User.js";
 interface REQ extends PREQ_A {
   body: Body;
   file: FileInfo;
-  rootFolder?: Folder;
+  // rootFolder?: Folder;
   targetCommonFile?: CommonFile;
 };
 interface Body {
@@ -26,12 +26,15 @@ interface FileInfo {
 
 interface NREQ extends PREQ_B {
   user: User;
-  rootFolder: Folder;
   targetCommonFile: CommonFile;
   file: NFileInfo;
+  query: Query;
 };
 interface NFileInfo extends FileInfo {
   filename: string;
+};
+interface Query {
+  path: string;
 };
 
 export default class UploadFile extends API {
@@ -69,12 +72,23 @@ export default class UploadFile extends API {
       throw new Error("This Name Has Been Used!");
     };
 
-    const user: User = req.user;
-    const root: Folder = req.rootFolder;
+    const preUser: User = req.user;
+    const name: string = preUser.getName();
+    const user: User | null = await UserCollectionHelper.prototype.read(name);
+
+    if (!user) {
+      throw new Error("The user has been remove.");
+    };
+
+    const root: Folder = user.getRootFolder();
+    const path: string[] = req.query.path.split(",");
+    const parentPath = path.slice(0, path.length - 1);
+    const parent: Folder = <Folder> root.find(parentPath, Folder);
     const target: CommonFile = req.targetCommonFile;
     const filename: string = req.file.filename;
 
     target.setFilename(filename);
+    parent.add(target);
     await UserCollectionHelper.prototype.update(user.getName(), user);
 
     return root.exportFields();
@@ -93,12 +107,11 @@ export default class UploadFile extends API {
       const parent: Folder = <Folder> root.find(parentPath, Folder);
 
       try {
-        try {
-          parent.add(commonFile);
-        } catch (error: unknown) {
-          return callback(null, false);
+        if (parent.isRepetitiveName(commonFile)) {
+          throw new Error(
+            "[Folder] Folder received a file which has been existed!"
+          );
         };
-        req.rootFolder = root;
         req.targetCommonFile = commonFile;
 
         return callback(null, true);
