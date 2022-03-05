@@ -28,7 +28,6 @@ export default class GetFileContent extends API {
     const user: User = req.user;
     const root: Folder = user.getRootFolder();
     const path: string[] = req.query.path;
-    console.log(path);
     const target: CommonFile = <CommonFile> root.find(path, CommonFile);
     const filename: string = target.getFilename();
     const filepath: string = Path.resolve(this.destination, filename);

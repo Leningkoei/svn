@@ -22,7 +22,8 @@ export default connect(
                 />
               </div>
               <Button
-                type="primary"
+                ghost={true}
+                danger={true}
                 block={true}
                 style={{ height: "100%" }}
                 onClick={this.onClickSignOut}
