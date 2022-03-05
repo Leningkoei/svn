@@ -8,7 +8,6 @@ import style from "./style.scss";
 export default class Main extends React.Component {
     render() {
         const leftWidth = this.state.leftWidth;
-        const rightWidth = this.state.rightWidth;
         const isResizing = this.state.isResizing;
 
         return (
@@ -20,7 +19,7 @@ export default class Main extends React.Component {
                 <div className={style["content"]}>
                     <div
                         className={style["left"]}
-                        style={{ width: `${leftWidth}` }}
+                        style={{ width: `${leftWidth}%` }}
                     >
                         <Holder history={this.props.history} />
                     </div>
@@ -33,7 +32,7 @@ export default class Main extends React.Component {
                     ></div>
                     <div
                         className={style["right"]}
-                        style={{ width: `${rightWidth}` }}
+                        style={{ width: `${100 - leftWidth}%` }}
                     >
                         <User history={this.props.history} />
                         <Content />
@@ -47,37 +46,28 @@ export default class Main extends React.Component {
 
     state = {
         leftWidth: "auto",
-        rightWidth: "auto",
         isResizing: false
     };
 
-    width = innerWidth;
-
     handleMouseUp = event => {
       if (this.state.isResizing) {
+        const nextLeftWidth = event.clientX / innerWidth * 100;
         this.setState({
           isResizing: false,
-          leftWidth:`${event.clientX}px`,
-          rightWidth: `${this.width - event.clientX}px`
+          leftWidth: nextLeftWidth
         });
-        localStorage.setItem("leftWidth", `${event.clientX}px`);
+        localStorage.setItem("leftWidth", nextLeftWidth);
       };
     };
 
     componentDidMount() {
       if (localStorage.getItem("token")) {
-        const width = this.width;
-        const storagedLeftWidthStr = localStorage.getItem("leftWidth");
-        const leftWidth =
-            storagedLeftWidthStr ? Number(storagedLeftWidthStr.substring(
-                0,
-                storagedLeftWidthStr.length - 2
-            )) : innerWidth * 0.3;
-        const rightWidth = width - leftWidth;
+        const storagedLeftWidth = Number(localStorage.getItem("leftWidth"));
+        const leftWidth = storagedLeftWidth? storagedLeftWidth: 30;
+        const rightWidth = 100 - leftWidth;
 
         this.setState({
-            leftWidth: `${leftWidth}px`,
-            rightWidth: `${rightWidth}px`
+            leftWidth: leftWidth
         });
       } else {
         this.props.history.replace("/sign-in");

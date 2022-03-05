@@ -10,6 +10,7 @@ export default connect(
   render() {
     const name = this.props.name;
     const isEdit = this.props.isEdit;
+    const { isLangSelectorDisabled } = this.props;
 
     return (
       <div className={style.bar}>
@@ -18,10 +19,14 @@ export default connect(
           style={{ width: "100%", textAlign: "center" }}
           defaultValue="markdown"
           onChange={this.onChange}
+          disabled={isLangSelectorDisabled}
         >
           <Select.Option value="markdown">markdown</Select.Option>
           <Select.Option value="javascript">javascript</Select.Option>
           <Select.Option value="typescript">typescript</Select.Option>
+          <Select.Option value="json">json</Select.Option>
+          <Select.Option value="scheme">scheme</Select.Option>
+          <Select.Option value="clojure">clojure</Select.Option>
         </Select>
         <span className={style.name}>{name}</span>
         <Button

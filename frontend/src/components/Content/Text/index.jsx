@@ -12,11 +12,12 @@ export default connect(
     const content = this.props.content;
     const disabled = this.props.disabled;
     const lang = this.props.lang;
+    const height = this.state.windowHeight - 104;
 
     return (
         <Editor
           className={style.text}
-          height={this.state.heightOfEditor}
+          height={height}
           onChange={disabled ? undefined : this.onChange}
           defaultValue={content}
           language={lang}
@@ -29,14 +30,15 @@ export default connect(
     this.props.noticeTextChange(value);
   };
 
-  height = innerHeight;
-
   state = {
-    heightOfEditor: "88vh"
+    windowHeight: innerHeight
   };
 
-  componentDidMount = () => {
-    this.setState({ heightOfEditor: `${this.height - 104}px` });
-  };
+  handleResize = () => this.setState({ windowHeight: innerHeight });
+
+  componentDidMount = () =>
+    window.addEventListener("resize", this.handleResize);
+  componentWillUnmount = () =>
+    window.removeEventListener("resize", this.handleResize);
 });
 

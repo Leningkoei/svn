@@ -17,6 +17,7 @@ export default connect(
     const name = this.props.fileInfo.name;
     const content = this.state.content;
     const isEdit = this.state.isEdit;
+    const { isLangSelectorDisabled } = this.state;
 
     return (
       <div className={style.content}>
@@ -25,6 +26,7 @@ export default connect(
           isEdit={isEdit}
           noticeChangeLang={this.noticeChangeLang}
           noticeSave={this.noticeSave}
+          isLangSelectorDisabled={isLangSelectorDisabled}
         />
         {content}
       </div>
@@ -61,7 +63,8 @@ export default connect(
   state = {
     content: this.getTextComponent("", true),
     isEdit: false,
-    text: ""
+    text: "",
+    isLangSelectorDisabled: false
   };
 
   async componentDidUpdate(props, state) {
@@ -79,7 +82,7 @@ export default connect(
       if (this.imgType.includes(extension)) {
         const content = <Img src={API.getImg(fileInfo.path)} />;
 
-        this.setState({ content });
+        this.setState({ content, isLangSelectorDisabled: true });
 
         return;
       };
@@ -87,7 +90,7 @@ export default connect(
       if (this.videoType.includes(extension)) {
         const content = <Video src={API.getImg(fileInfo.path)} />;
 
-        this.setState({ content });
+        this.setState({ content, isLangSelectorDisabled: true });
 
         return;
       };
@@ -95,7 +98,7 @@ export default connect(
       const res = await API.getFileContent({ path: fileInfo.path })
       const textComponent = this.getTextComponent(res.data);
 
-      this.setState({ content: textComponent });
+      this.setState({ content: textComponent, isLangSelectorDisabled: false });
     };
   };
 
