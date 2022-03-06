@@ -26,7 +26,6 @@ export default connect(
   };
 
   onChange = value => {
-    this.props.noticeIsEdit(value !== this.props.content);
     this.props.noticeTextChange(value);
   };
 

@@ -11,13 +11,13 @@ export default connect(
     API: state.API,
     fileInfo: state.fileInfo
   }),
-  { refreshRootDirectory: data => ({ type: "refreshRootDirectory", data }) }
+  {}
 )(class Content extends React.Component {
   render() {
-    const name = this.props.fileInfo.name;
-    const content = this.state.content;
-    const isEdit = this.state.isEdit;
-    const { isLangSelectorDisabled } = this.state;
+    const { props: { fileInfo: { name } },
+            state: { content,
+                     isEdit,
+                     isLangSelectorDisabled } } = this;
 
     return (
       <div className={style.content}>
@@ -34,8 +34,12 @@ export default connect(
   };
 
   noticeChangeLang = lang => this.setState({ lang });
-  noticeIsEdit = isEdit => this.setState({ isEdit });
-  noticeTextChange = text => this.setState({ text });
+  noticeTextChange = text => {
+    this.setState({
+      text,
+      isEdit: text !== this.state.originalText
+    });
+  };
   noticeSave = async () => {
     const method = this.props.API.changeFileText;
     const res = await method({
@@ -43,20 +47,17 @@ export default connect(
       text: this.state.text
     });
 
-    if (!res.data.result) {
-      alert(res.data.msg);
-    } else {
-      this.setState({ isEdit: false });
-
-      this.props.refreshRootDirectory(res.data.content);
-    };
+    this.setState({
+      text: res.data,
+      originalText: res.data,
+      isEdit: false
+    });
   };
 
   getTextComponent = (content, disabled = false) => (<Text
     key={new Date()}
     disabled={disabled}
     content={content}
-    noticeIsEdit={this.noticeIsEdit}
     noticeTextChange={this.noticeTextChange}
   />);
 
@@ -64,6 +65,7 @@ export default connect(
     content: this.getTextComponent("", true),
     isEdit: false,
     text: "",
+    originalText: "",
     isLangSelectorDisabled: false
   };
 
@@ -98,7 +100,11 @@ export default connect(
       const res = await API.getFileContent({ path: fileInfo.path })
       const textComponent = this.getTextComponent(res.data);
 
-      this.setState({ content: textComponent, isLangSelectorDisabled: false });
+      this.setState({
+        content: textComponent,
+        originalText: res.data,
+        isLangSelectorDisabled: false
+      });
     };
   };
 

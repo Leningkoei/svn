@@ -1,5 +1,5 @@
 import Path from "path";
-import API from "./API.js";
+import API, { RES } from "./API.js";
 import Router from "../instances/Router.js";
 import { REQ as PREQ_A } from "../instances/token/Token.js";
 import TokenProvider from "../instances/token/TokenProvider.js";
@@ -30,7 +30,7 @@ export default class ChangeFileText extends API {
   protected method: "get" | "post" = "post";
   protected name: string = "change file text";
 
-  protected async getContent(req: REQ): Promise<ExportedFolder> {
+  protected async getContent(req: REQ): Promise<Content> {
     const user: User = req.user;
     const root: Folder = user.getRootFolder();
     const path: string[] = req.query.path;
@@ -48,7 +48,7 @@ export default class ChangeFileText extends API {
 
     await changeFileText(filepath, text);
 
-    return root.exportFields();
+    return { filepath };
   };
   protected getMiddlewares(): (Middleware | Router)[] {
     return [
@@ -56,7 +56,16 @@ export default class ChangeFileText extends API {
       formData
     ];
   };
+  protected handleSuccess(res: RES, content: Content): void {
+    const filepath: string = content.filepath;
+
+    res.sendFile(filepath);
+  };
 
   private destination: string = undefined;
+};
+
+interface Content {
+  filepath: string;
 };
 
